@@ -79,4 +79,16 @@ canvas#network-bg {
 .glow {
   color: #7B5CFF;
   text-shadow: 0 0 12px #7B5CFF;
+  /* Add to style.css */
+.container {
+    width: 90%;
+    max-width: 900px;
+    margin: 120px auto; /* adds spacing from navbar */
+    line-height: 1.7;
+}
+
+.section {
+    margin-bottom: 80px;
+}
+
 }
