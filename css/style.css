@@ -2,7 +2,9 @@
 body, html {
   margin: 0;
   padding: 0;
-  font-family: 'Inter', sans-serif;
+  h1, h2, h3 {
+      font-family: 'Orbitron', sans-serif;
+  }
   background: #000;
   color: #e6e6e6;
   overflow-x: hidden;
