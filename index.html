@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rizul Sharma - Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,8 +15,8 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #000;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0f;
             color: #fff;
             overflow-x: hidden;
         }
@@ -32,40 +35,209 @@
         }
 
         header {
-            padding: 60px 20px;
+            padding: 0;
             text-align: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #667eea 100%);
-            background-size: 200% 200%;
-            animation: gradientMove 8s ease infinite;
-            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+            background: #0a0a0f;
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        @keyframes gradientMove {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+        .floating-orbs {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.4;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb:nth-child(1) {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #667eea, transparent);
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+
+        .orb:nth-child(2) {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #764ba2, transparent);
+            top: 50%;
+            right: -150px;
+            animation-delay: -5s;
+        }
+
+        .orb:nth-child(3) {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, #f093fb, transparent);
+            bottom: -100px;
+            left: 30%;
+            animation-delay: -10s;
+        }
+
+        .orb:nth-child(4) {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #4facfe, transparent);
+            top: 20%;
+            left: 50%;
+            animation-delay: -15s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(50px, 100px) scale(1.1);
+            }
+            50% {
+                transform: translate(-30px, 50px) scale(0.9);
+            }
+            75% {
+                transform: translate(80px, -50px) scale(1.05);
+            }
+        }
+
+        .grain {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #667eea;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #667eea;
+            animation: rise 15s linear infinite;
+        }
+
+        @keyframes rise {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 3;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .profile-container {
             margin: 30px 0;
             display: inline-block;
+            position: relative;
+            animation: profileEntrance 1.2s ease-out 0.3s both;
+        }
+
+        @keyframes profileEntrance {
+            from {
+                opacity: 0;
+                transform: scale(0.5) rotate(-180deg);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
         }
 
         .profile-pic {
-            width: 180px;
-            height: 180px;
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
-            border: 4px solid #667eea;
-            box-shadow: 0 0 40px rgba(102, 126, 234, 0.8),
-                        0 0 80px rgba(118, 75, 162, 0.5),
-                        inset 0 0 20px rgba(102, 126, 234, 0.3);
-            animation: ringGlow 3s ease-in-out infinite;
+            border: 5px solid transparent;
+            background: 
+                linear-gradient(#0a0a0f, #0a0a0f) padding-box,
+                linear-gradient(135deg, #667eea, #764ba2, #f093fb, #667eea) border-box;
+            box-shadow: 
+                0 0 60px rgba(102, 126, 234, 0.6),
+                0 0 100px rgba(118, 75, 162, 0.4),
+                inset 0 0 30px rgba(102, 126, 234, 0.2);
+            animation: ringGlow 3s ease-in-out infinite, rotate 20s linear infinite;
             object-fit: cover;
-            background: linear-gradient(135deg, #667eea, #764ba2);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 60px;
+            font-size: 70px;
             color: #fff;
+            position: relative;
+        }
+
+        @keyframes rotate {
+            from { filter: hue-rotate(0deg); }
+            to { filter: hue-rotate(360deg); }
+        }
+
+        .profile-pic::before {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            filter: blur(30px);
+            opacity: 0.5;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(0.9); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
         }
 
         @keyframes ringGlow {
@@ -82,27 +254,128 @@
         }
 
         h1 {
-            font-size: 3.5em;
-            margin: 20px 0 10px;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-            letter-spacing: 2px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 5.5em;
+            font-weight: 900;
+            margin: 30px 0 20px;
+            letter-spacing: -3px;
+            background: linear-gradient(135deg, #fff 0%, #667eea 50%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            display: inline-block;
+            animation: titleEntrance 1s ease-out 0.6s both;
+        }
+
+        @keyframes titleEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+                filter: blur(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+
+        h1::after {
+            content: 'RIZUL SHARMA';
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: -1;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: blur(25px);
+            opacity: 0.6;
+            animation: glowPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.8; }
+        }
+
+        h1::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.2), transparent);
+            z-index: -2;
+            animation: expand 3s ease-in-out infinite;
+        }
+
+        @keyframes expand {
+            0%, 100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
         }
 
         .tagline {
-            font-size: 1.3em;
-            opacity: 0.95;
-            letter-spacing: 1px;
+            font-size: 1.5em;
+            font-weight: 300;
+            opacity: 0;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-family: 'Space Grotesk', sans-serif;
+            animation: fadeIn 1s ease-out 0.9s both;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 0.8;
+                transform: translateY(0);
+            }
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        .scroll-indicator::before {
+            content: '↓';
+            font-size: 2em;
+            color: #667eea;
+            text-shadow: 0 0 20px rgba(102, 126, 234, 0.8);
         }
 
         nav {
-            background: rgba(10, 10, 30, 0.95);
+            background: rgba(10, 10, 30, 0.8);
             padding: 20px;
             text-align: center;
             position: sticky;
             top: 0;
             z-index: 100;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
             border-bottom: 2px solid rgba(102, 126, 234, 0.3);
+            transform: translateY(-100%);
+            animation: slideDown 0.5s ease-out 1.2s both;
+        }
+
+        @keyframes slideDown {
+            to { transform: translateY(0); }
         }
 
         .nav-btn {
@@ -155,14 +428,37 @@
         }
 
         .section-title {
-            font-size: 2.5em;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3em;
+            font-weight: 700;
             margin-bottom: 40px;
             text-align: center;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #fff, #667eea);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            letter-spacing: 2px;
+            letter-spacing: -1px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .section-title.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 2px;
         }
 
         .card-grid {
@@ -173,14 +469,32 @@
         }
 
         .card {
-            background: rgba(20, 20, 50, 0.8);
-            border: 2px solid rgba(102, 126, 234, 0.3);
+            background: rgba(15, 15, 25, 0.8);
+            border: 2px solid rgba(102, 126, 234, 0.2);
             border-radius: 20px;
             padding: 30px;
             transition: all 0.4s ease;
             backdrop-filter: blur(10px);
             position: relative;
             overflow: hidden;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
         }
 
         .card::before {
@@ -283,11 +597,22 @@
     
     <div class="content">
         <header>
-            <div class="profile-container">
-                <div class="profile-pic">RS</div>
+            <div class="floating-orbs">
+                <div class="orb"></div>
+                <div class="orb"></div>
+                <div class="orb"></div>
+                <div class="orb"></div>
             </div>
-            <h1>Rizul Sharma</h1>
-            <p class="tagline">Developer • Designer • Innovator</p>
+            <div class="particles" id="particles"></div>
+            <div class="grain"></div>
+            <div class="header-content">
+                <div class="profile-container">
+                    <div class="profile-pic">RS</div>
+                </div>
+                <h1>RIZUL SHARMA</h1>
+                <p class="tagline">Developer • Designer • Innovator</p>
+            </div>
+            <div class="scroll-indicator"></div>
         </header>
 
         <nav>
@@ -372,15 +697,29 @@
     </div>
 
     <script>
+        // Particle generation
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // Neural network canvas
         const canvas = document.getElementById('neural-network');
         const ctx = canvas.getContext('2d');
         
         canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.height = document.documentElement.scrollHeight;
 
         const nodes = [];
-        const connections = [];
-        const nodeCount = 50;
+        const nodeCount = 80;
+        let scrollProgress = 0;
+        let mouseX = 0;
+        let mouseY = 0;
 
         class Node {
             constructor() {
@@ -389,21 +728,45 @@
                 this.vx = (Math.random() - 0.5) * 0.5;
                 this.vy = (Math.random() - 0.5) * 0.5;
                 this.radius = Math.random() * 2 + 1;
+                this.baseRadius = this.radius;
             }
 
             update() {
+                // Mouse interaction
+                const dx = mouseX - this.x;
+                const dy = mouseY - this.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < 200) {
+                    const force = (200 - distance) / 200;
+                    this.vx -= (dx / distance) * force * 0.2;
+                    this.vy -= (dy / distance) * force * 0.2;
+                }
+
                 this.x += this.vx;
                 this.y += this.vy;
 
+                // Damping
+                this.vx *= 0.98;
+                this.vy *= 0.98;
+
                 if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
                 if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+
+                const scrollFactor = 1 + scrollProgress * 2;
+                this.radius = this.baseRadius * scrollFactor;
             }
 
             draw() {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = '#667eea';
-                ctx.shadowBlur = 10;
+                
+                const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius * 2);
+                gradient.addColorStop(0, 'rgba(102, 126, 234, 0.8)');
+                gradient.addColorStop(1, 'rgba(118, 75, 162, 0)');
+                
+                ctx.fillStyle = gradient;
+                ctx.shadowBlur = 15 * (1 + scrollProgress);
                 ctx.shadowColor = '#667eea';
                 ctx.fill();
                 ctx.shadowBlur = 0;
@@ -415,18 +778,26 @@
         }
 
         function drawConnections() {
+            const maxDistance = 150 + (scrollProgress * 100);
+            
             for (let i = 0; i < nodes.length; i++) {
                 for (let j = i + 1; j < nodes.length; j++) {
                     const dx = nodes[i].x - nodes[j].x;
                     const dy = nodes[i].y - nodes[j].y;
                     const distance = Math.sqrt(dx * dx + dy * dy);
 
-                    if (distance < 150) {
+                    if (distance < maxDistance) {
                         ctx.beginPath();
                         ctx.moveTo(nodes[i].x, nodes[i].y);
                         ctx.lineTo(nodes[j].x, nodes[j].y);
-                        ctx.strokeStyle = `rgba(102, 126, 234, ${1 - distance / 150})`;
-                        ctx.lineWidth = 0.5;
+                        
+                        const opacity = (1 - distance / maxDistance) * (0.3 + scrollProgress * 0.4);
+                        const gradient = ctx.createLinearGradient(nodes[i].x, nodes[i].y, nodes[j].x, nodes[j].y);
+                        gradient.addColorStop(0, `rgba(102, 126, 234, ${opacity})`);
+                        gradient.addColorStop(1, `rgba(118, 75, 162, ${opacity})`);
+                        
+                        ctx.strokeStyle = gradient;
+                        ctx.lineWidth = 1 + scrollProgress;
                         ctx.stroke();
                     }
                 }
@@ -448,9 +819,25 @@
 
         animate();
 
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY + window.scrollY;
+        });
+
+        window.addEventListener('scroll', () => {
+            scrollProgress = Math.min(window.scrollY / (document.documentElement.scrollHeight - window.innerHeight), 1);
+            
+            document.querySelectorAll('.section-title, .card').forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.8) {
+                    el.classList.add('visible');
+                }
+            });
+        });
+
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            canvas.height = document.documentElement.scrollHeight;
         });
 
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -462,6 +849,15 @@
                 }
             });
         });
+
+        setTimeout(() => {
+            document.querySelectorAll('.section-title, .card').forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.8) {
+                    el.classList.add('visible');
+                }
+            });
+        }, 100);
     </script>
 </body>
 </html>
