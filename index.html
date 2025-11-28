@@ -1,53 +1,467 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rizul Sharma — Portfolio</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rizul Sharma - Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
 
-<!-- CSS -->
-<link rel="stylesheet" href="css/style.css">
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
 
-<!-- JS -->
-<script src="js/script.js" defer></script>
+        .content {
+            position: relative;
+            z-index: 2;
+        }
 
+        header {
+            padding: 60px 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #667eea 100%);
+            background-size: 200% 200%;
+            animation: gradientMove 8s ease infinite;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+        }
+
+        @keyframes gradientMove {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .profile-container {
+            margin: 30px 0;
+            display: inline-block;
+        }
+
+        .profile-pic {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 4px solid #667eea;
+            box-shadow: 0 0 40px rgba(102, 126, 234, 0.8),
+                        0 0 80px rgba(118, 75, 162, 0.5),
+                        inset 0 0 20px rgba(102, 126, 234, 0.3);
+            animation: ringGlow 3s ease-in-out infinite;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            color: #fff;
+        }
+
+        @keyframes ringGlow {
+            0%, 100% { 
+                box-shadow: 0 0 40px rgba(102, 126, 234, 0.8),
+                            0 0 80px rgba(118, 75, 162, 0.5),
+                            inset 0 0 20px rgba(102, 126, 234, 0.3);
+            }
+            50% { 
+                box-shadow: 0 0 60px rgba(102, 126, 234, 1),
+                            0 0 120px rgba(118, 75, 162, 0.7),
+                            inset 0 0 30px rgba(102, 126, 234, 0.5);
+            }
+        }
+
+        h1 {
+            font-size: 3.5em;
+            margin: 20px 0 10px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            letter-spacing: 2px;
+        }
+
+        .tagline {
+            font-size: 1.3em;
+            opacity: 0.95;
+            letter-spacing: 1px;
+        }
+
+        nav {
+            background: rgba(10, 10, 30, 0.95);
+            padding: 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid rgba(102, 126, 234, 0.3);
+        }
+
+        .nav-btn {
+            display: inline-block;
+            margin: 0 15px;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .nav-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .section {
+            margin: 80px 0;
+        }
+
+        .section-title {
+            font-size: 2.5em;
+            margin-bottom: 40px;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: rgba(20, 20, 50, 0.8);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(102, 126, 234, 0.8);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .card h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .card p {
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .skill-tag {
+            padding: 8px 20px;
+            background: rgba(102, 126, 234, 0.2);
+            border: 1px solid rgba(102, 126, 234, 0.5);
+            border-radius: 20px;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            background: rgba(102, 126, 234, 0.4);
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(10, 10, 30, 0.95);
+            margin-top: 80px;
+            border-top: 2px solid rgba(102, 126, 234, 0.3);
+        }
+
+        .social-links {
+            margin: 20px 0;
+        }
+
+        .social-icon {
+            display: inline-block;
+            margin: 0 15px;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            font-size: 1.5em;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .social-icon:hover {
+            transform: translateY(-5px) rotate(360deg);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5em; }
+            .nav-btn { margin: 10px 5px; padding: 10px 20px; }
+            .card-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
+    <canvas id="neural-network"></canvas>
+    
+    <div class="content">
+        <header>
+            <div class="profile-container">
+                <div class="profile-pic">RS</div>
+            </div>
+            <h1>Rizul Sharma</h1>
+            <p class="tagline">Developer • Designer • Innovator</p>
+        </header>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-  <div class="logo glow">Rizul's Portfolio</div>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="about.html">About</a></li>
-    <li><a href="projects.html">Projects</a></li>
-    <li><a href="experience.html">Experience</a></li>
-    <li><a href="contact.html">Contact</a></li>
-  </ul>
-</nav>
+        <nav>
+            <a href="#about" class="nav-btn">About</a>
+            <a href="#projects" class="nav-btn">Projects</a>
+            <a href="#skills" class="nav-btn">Skills</a>
+            <a href="#contact" class="nav-btn">Contact</a>
+        </nav>
 
-<!-- NEURAL NETWORK BACKGROUND -->
-<canvas id="network-bg"></canvas>
+        <main>
+            <section id="about" class="section">
+                <h2 class="section-title">About Me</h2>
+                <div class="card">
+                    <p>Hey there! I'm Rizul, a passionate developer who loves building innovative solutions and exploring the intersection of technology and creativity. I specialize in creating elegant, efficient, and user-friendly applications that make a difference.</p>
+                    <br>
+                    <p>When I'm not coding, you'll find me exploring new technologies, contributing to open-source projects, or diving deep into the latest developments in AI and machine learning.</p>
+                </div>
+            </section>
 
-<!-- HERO SECTION -->
-<section class="hero container">
-  <div class="hero-text">
-    <h1 class="glow">Hi, I'm Rizul Sharma</h1>
-    <p>
-      Student passionate about math, CS, and the intersection between human behavior and technology.
-      Building meaningful projects, teaching STEM, and exploring AI & cognition.
-    </p>
-    <a href="projects.html" class="btn-glow">See My Work</a>
-  </div>
-  <div class="hero-image">
-    <div class="image-ring">
-      <img src="assets/placeholder.jpg" alt="Rizul Sharma">
+            <section id="projects" class="section">
+                <h2 class="section-title">Featured Projects</h2>
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>🚀 Project Alpha</h3>
+                        <p>A cutting-edge web application built with modern technologies. Features real-time data processing and an intuitive user interface.</p>
+                        <div class="skills">
+                            <span class="skill-tag">React</span>
+                            <span class="skill-tag">Node.js</span>
+                            <span class="skill-tag">MongoDB</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>🎨 Design System</h3>
+                        <p>A comprehensive design system and component library used across multiple projects to maintain consistency and speed up development.</p>
+                        <div class="skills">
+                            <span class="skill-tag">CSS</span>
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">Figma</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>🤖 AI Assistant</h3>
+                        <p>An intelligent chatbot powered by machine learning that helps users with complex queries and automates routine tasks.</p>
+                        <div class="skills">
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">TensorFlow</span>
+                            <span class="skill-tag">NLP</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="skills" class="section">
+                <h2 class="section-title">Skills & Technologies</h2>
+                <div class="skills">
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">React</span>
+                    <span class="skill-tag">Node.js</span>
+                    <span class="skill-tag">TypeScript</span>
+                    <span class="skill-tag">HTML/CSS</span>
+                    <span class="skill-tag">Git</span>
+                    <span class="skill-tag">Docker</span>
+                    <span class="skill-tag">AWS</span>
+                    <span class="skill-tag">Machine Learning</span>
+                    <span class="skill-tag">SQL</span>
+                    <span class="skill-tag">REST APIs</span>
+                </div>
+            </section>
+        </main>
+
+        <footer id="contact">
+            <h2 class="section-title">Let's Connect</h2>
+            <div class="social-links">
+                <a href="https://github.com/rizulsharma" class="social-icon" target="_blank">𝗚</a>
+                <a href="https://linkedin.com/in/rizulsharma" class="social-icon" target="_blank">𝗟</a>
+                <a href="mailto:hello@rizulsharma.com" class="social-icon" target="_blank">✉</a>
+                <a href="https://twitter.com/rizulsharma" class="social-icon" target="_blank">𝕏</a>
+            </div>
+            <p style="opacity: 0.7; margin-top: 20px;">&copy; 2024 Rizul Sharma. All rights reserved.</p>
+        </footer>
     </div>
-  </div>
-</section>
 
+    <script>
+        const canvas = document.getElementById('neural-network');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const nodes = [];
+        const connections = [];
+        const nodeCount = 50;
+
+        class Node {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.radius = Math.random() * 2 + 1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = '#667eea';
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = '#667eea';
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        for (let i = 0; i < nodeCount; i++) {
+            nodes.push(new Node());
+        }
+
+        function drawConnections() {
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const dx = nodes[i].x - nodes[j].x;
+                    const dy = nodes[i].y - nodes[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 150) {
+                        ctx.beginPath();
+                        ctx.moveTo(nodes[i].x, nodes[i].y);
+                        ctx.lineTo(nodes[j].x, nodes[j].y);
+                        ctx.strokeStyle = `rgba(102, 126, 234, ${1 - distance / 150})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            drawConnections();
+            
+            nodes.forEach(node => {
+                node.update();
+                node.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
