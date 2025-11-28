@@ -166,6 +166,17 @@
             position: relative;
             z-index: 3;
             animation: fadeInUp 1s ease-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .text-content {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
         }
 
         @keyframes fadeInUp {
@@ -180,7 +191,7 @@
         }
 
         .profile-container {
-            margin: 30px 0;
+            margin: 0;
             display: inline-block;
             position: relative;
             animation: profileEntrance 1.2s ease-out 0.3s both;
@@ -212,6 +223,7 @@
             animation: borderRotate 8s linear infinite;
             position: relative;
             overflow: hidden;
+            display: block;
         }
 
         @keyframes borderRotate {
@@ -246,16 +258,29 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center 30%;
+            object-position: 30%;
             border-radius: 50%;
+            display: block;
         }
 
+        @keyframes ringGlow {
+            0%, 100% { 
+                box-shadow: 0 0 40px rgba(102, 126, 234, 0.8),
+                            0 0 80px rgba(118, 75, 162, 0.5),
+                            inset 0 0 20px rgba(102, 126, 234, 0.3);
+            }
+            50% { 
+                box-shadow: 0 0 60px rgba(102, 126, 234, 1),
+                            0 0 120px rgba(118, 75, 162, 0.7),
+                            inset 0 0 30px rgba(102, 126, 234, 0.5);
+            }
+        }
 
         h1 {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 5.5em;
             font-weight: 900;
-            margin: 30px 0 20px;
+            margin: 0;
             letter-spacing: -3px;
             background: linear-gradient(135deg, #fff 0%, #667eea 50%, #764ba2 100%);
             -webkit-background-clip: text;
@@ -264,6 +289,7 @@
             position: relative;
             display: inline-block;
             animation: titleEntrance 1s ease-out 0.6s both;
+            text-align: left;
         }
 
         @keyframes titleEntrance {
@@ -325,6 +351,8 @@
             text-transform: uppercase;
             font-family: 'Space Grotesk', sans-serif;
             animation: fadeIn 1s ease-out 0.9s both;
+            text-align: left;
+            margin-top: 10px;
         }
 
         @keyframes fadeIn {
@@ -606,11 +634,13 @@
             <div class="header-content">
                 <div class="profile-container">
                     <div class="profile-pic">
-                        <img src="./rizulspfp.png" alt="Profile Picture">
+                        <img src="./pfpf-artguru.png" alt="Profile Picture">
                     </div>
                 </div>
-                <h1>RIZUL SHARMA</h1>
-                <p class="tagline">Developer • Designer • Innovator</p>
+                <div class="text-content">
+                    <h1>RIZUL SHARMA</h1>
+                    <p class="tagline">Developer • Designer • Innovator</p>
+                </div>
             </div>
             <div class="scroll-indicator"></div>
         </header>
