@@ -1,895 +1,1492 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rizul Sharma - Portfolio</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #0a0a0f;
-            color: #fff;
-            overflow-x: hidden;
-        }
-
-        canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .content {
-            position: relative;
-            z-index: 2;
-        }
-
-        header {
-            padding: 0;
-            text-align: center;
-            background: #0a0a0f;
-            position: relative;
-            overflow: hidden;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .floating-orbs {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            overflow: hidden;
-        }
-
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(60px);
-            opacity: 0.4;
-            animation: float 20s ease-in-out infinite;
-        }
-
-        .orb:nth-child(1) {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, #667eea, transparent);
-            top: -100px;
-            left: -100px;
-            animation-delay: 0s;
-        }
-
-        .orb:nth-child(2) {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, #764ba2, transparent);
-            top: 50%;
-            right: -150px;
-            animation-delay: -5s;
-        }
-
-        .orb:nth-child(3) {
-            width: 350px;
-            height: 350px;
-            background: radial-gradient(circle, #f093fb, transparent);
-            bottom: -100px;
-            left: 30%;
-            animation-delay: -10s;
-        }
-
-        .orb:nth-child(4) {
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, #4facfe, transparent);
-            top: 20%;
-            left: 50%;
-            animation-delay: -15s;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translate(0, 0) scale(1);
-            }
-            25% {
-                transform: translate(50px, 100px) scale(1.1);
-            }
-            50% {
-                transform: translate(-30px, 50px) scale(0.9);
-            }
-            75% {
-                transform: translate(80px, -50px) scale(1.05);
-            }
-        }
-
-        .grain {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        .particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-
-        .particle {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: #667eea;
-            border-radius: 50%;
-            box-shadow: 0 0 10px #667eea;
-            animation: rise 15s linear infinite;
-        }
-
-        @keyframes rise {
-            0% {
-                transform: translateY(100vh) translateX(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) translateX(100px);
-                opacity: 0;
-            }
-        }
-
-        .header-content {
-            position: relative;
-            z-index: 3;
-            animation: fadeInUp 1s ease-out;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
-        }
-
-        .text-content {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .profile-container {
-            margin: 0;
-            display: inline-block;
-            position: relative;
-            animation: profileEntrance 1.2s ease-out 0.3s both;
-        }
-
-        @keyframes profileEntrance {
-            from {
-                opacity: 0;
-                transform: scale(0.5) rotate(-180deg);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) rotate(0deg);
-            }
-        }
-
-        .profile-pic {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            border: 5px solid transparent;
-            background: 
-                linear-gradient(#0a0a0f, #0a0a0f) padding-box,
-                linear-gradient(135deg, #667eea, #764ba2, #f093fb, #4facfe, #667eea) border-box;
-            background-size: 400% 400%;
-            box-shadow: 
-                0 0 60px rgba(102, 126, 234, 0.6),
-                0 0 100px rgba(118, 75, 162, 0.4);
-            animation: borderRotate 8s linear infinite;
-            position: relative;
-            overflow: hidden;
-            display: block;
-        }
-
-        @keyframes borderRotate {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 400% 50%; }
-        }
-
-        .profile-pic::before {
-            content: '';
-            position: absolute;
-            inset: -30px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, 
-                rgba(102, 126, 234, 0.4), 
-                rgba(118, 75, 162, 0.4), 
-                rgba(240, 147, 251, 0.4), 
-                rgba(79, 172, 254, 0.4)
-            );
-            background-size: 400% 400%;
-            filter: blur(40px);
-            animation: glowShift 8s ease-in-out infinite;
-            z-index: -1;
-        }
-
-        @keyframes glowShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .profile-pic img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            border-radius: 50%;
-            display: block;
-        }
-
-        @keyframes ringGlow {
-            0%, 100% { 
-                box-shadow: 0 0 40px rgba(102, 126, 234, 0.8),
-                            0 0 80px rgba(118, 75, 162, 0.5),
-                            inset 0 0 20px rgba(102, 126, 234, 0.3);
-            }
-            50% { 
-                box-shadow: 0 0 60px rgba(102, 126, 234, 1),
-                            0 0 120px rgba(118, 75, 162, 0.7),
-                            inset 0 0 30px rgba(102, 126, 234, 0.5);
-            }
-        }
-
-        h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 5.5em;
-            font-weight: 900;
-            margin: 0;
-            letter-spacing: -3px;
-            background: linear-gradient(135deg, #fff 0%, #667eea 50%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            position: relative;
-            display: inline-block;
-            animation: titleEntrance 1s ease-out 0.6s both;
-            text-align: left;
-        }
-
-        @keyframes titleEntrance {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-                filter: blur(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-                filter: blur(0);
-            }
-        }
-
-        h1::after {
-            content: 'RIZUL SHARMA';
-            position: absolute;
-            left: 0;
-            top: 0;
-            z-index: -1;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            filter: blur(25px);
-            opacity: 0.6;
-            animation: glowPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes glowPulse {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 0.8; }
-        }
-
-        h1::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 120%;
-            height: 120%;
-            background: radial-gradient(circle, rgba(102, 126, 234, 0.2), transparent);
-            z-index: -2;
-            animation: expand 3s ease-in-out infinite;
-        }
-
-        @keyframes expand {
-            0%, 100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
-            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
-        }
-
-        .tagline {
-            font-size: 1.5em;
-            font-weight: 300;
-            opacity: 0;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            font-family: 'Space Grotesk', sans-serif;
-            animation: fadeIn 1s ease-out 0.9s both;
-            text-align: left;
-            margin-top: 10px;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 0.8;
-                transform: translateY(0);
-            }
-        }
-
-        .scroll-indicator {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
-            animation: bounce 2s ease-in-out infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(10px); }
-        }
-
-        .scroll-indicator::before {
-            content: '↓';
-            font-size: 2em;
-            color: #667eea;
-            text-shadow: 0 0 20px rgba(102, 126, 234, 0.8);
-        }
-
-        nav {
-            background: rgba(10, 10, 30, 0.8);
-            padding: 20px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(20px);
-            border-bottom: 2px solid rgba(102, 126, 234, 0.3);
-            transform: translateY(-100%);
-            animation: slideDown 0.5s ease-out 1.2s both;
-        }
-
-        @keyframes slideDown {
-            to { transform: translateY(0); }
-        }
-
-        .nav-btn {
-            display: inline-block;
-            margin: 0 15px;
-            padding: 12px 30px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            transition: all 0.4s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .nav-btn:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .nav-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
-        }
-
-        main {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 60px 20px;
-        }
-
-        .section {
-            margin: 80px 0;
-        }
-
-        .section-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 3em;
-            font-weight: 700;
-            margin-bottom: 40px;
-            text-align: center;
-            background: linear-gradient(135deg, #fff, #667eea);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -1px;
-            position: relative;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease;
-        }
-
-        .section-title.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 4px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            border-radius: 2px;
-        }
-
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .card {
-            background: rgba(15, 15, 25, 0.8);
-            border: 2px solid rgba(102, 126, 234, 0.2);
-            border-radius: 20px;
-            padding: 30px;
-            transition: all 0.4s ease;
-            backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(50px);
-        }
-
-        .card.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
-            pointer-events: none;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(102, 126, 234, 0.1), transparent);
-            transform: rotate(45deg);
-            transition: all 0.6s ease;
-        }
-
-        .card:hover::before {
-            left: 100%;
-        }
-
-        .card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: rgba(102, 126, 234, 0.8);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
-        }
-
-        .card h3 {
-            font-size: 1.8em;
-            margin-bottom: 15px;
-            color: #667eea;
-        }
-
-        .card p {
-            line-height: 1.8;
-            opacity: 0.9;
-        }
-
-        .skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .skill-tag {
-            padding: 8px 20px;
-            background: rgba(102, 126, 234, 0.2);
-            border: 1px solid rgba(102, 126, 234, 0.5);
-            border-radius: 20px;
-            font-size: 0.9em;
-            transition: all 0.3s ease;
-        }
-
-        .skill-tag:hover {
-            background: rgba(102, 126, 234, 0.4);
-            transform: scale(1.1);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            background: rgba(10, 10, 30, 0.95);
-            margin-top: 80px;
-            border-top: 2px solid rgba(102, 126, 234, 0.3);
-        }
-
-        .social-links {
-            margin: 20px 0;
-        }
-
-        .social-icon {
-            display: inline-block;
-            margin: 0 15px;
-            width: 50px;
-            height: 50px;
-            line-height: 50px;
-            text-align: center;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: #fff;
-            font-size: 1.5em;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-        }
-
-        .social-icon:hover {
-            transform: translateY(-5px) rotate(360deg);
-            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
-        }
-
-        @media (max-width: 768px) {
-            h1 { font-size: 2.5em; }
-            .nav-btn { margin: 10px 5px; padding: 10px 20px; }
-            .card-grid { grid-template-columns: 1fr; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rizul Sharma's Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=DM+Sans:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --coral: #ce6a6c;
+    --peach: #edada3;
+    --blush: #f9c7be;
+    --teal: #94c4c1;
+    --ocean: #42899b;
+    --navy: #28405c;
+    --glass-bg: rgba(255,255,255,0.08);
+    --glass-border: rgba(255,255,255,0.18);
+    --glass-blur: blur(24px);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: linear-gradient(135deg, #1a0f14 0%, #0d1f2d 40%, #0a1a1f 100%);
+    color: #f0e8e5;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* ─── CUSTOM CURSOR ─── */
+  #cursor {
+    position: fixed;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--coral), var(--peach));
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%,-50%);
+    transition: width 0.3s, height 0.3s, background 0.3s;
+    box-shadow: 0 0 20px var(--coral), 0 0 40px rgba(206,106,108,0.4);
+    mix-blend-mode: screen;
+  }
+  #cursor.expand {
+    width: 40px; height: 40px;
+    background: radial-gradient(circle, var(--teal), var(--ocean));
+    box-shadow: 0 0 30px var(--teal), 0 0 60px rgba(148,196,193,0.4);
+  }
+  #cursor-trail {
+    position: fixed;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--peach);
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%,-50%);
+    opacity: 0.5;
+    transition: all 0.15s ease;
+  }
+
+  /* ─── CANVAS (Three.js) ─── */
+  #bg-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: 0;
+  }
+
+  /* ─── CONTENT WRAPPER ─── */
+  .content { position: relative; z-index: 2; }
+
+  /* ─── HERO ─── */
+  #hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-inner {
+    text-align: center;
+    z-index: 3;
+    position: relative;
+  }
+  .hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 200;
+    font-size: 0.85rem;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 1s 0.5s both;
+  }
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(4rem, 10vw, 9rem);
+    font-weight: 700;
+    line-height: 0.9;
+    background: linear-gradient(135deg, var(--blush) 0%, var(--coral) 40%, var(--peach) 70%, var(--teal) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0;
+    animation: fadeUp 1s 0.8s both;
+    filter: drop-shadow(0 0 60px rgba(206,106,108,0.3));
+  }
+  .hero-name em {
+    font-style: italic;
+    font-weight: 400;
+  }
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeUp 1s 1.5s both;
+  }
+  .hero-scroll span {
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--teal);
+    opacity: 0.6;
+  }
+  .scroll-line {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, var(--teal), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%,100% { transform: scaleY(1); opacity: 0.6; }
+    50% { transform: scaleY(1.3); opacity: 1; }
+  }
+
+  /* ─── FLOATING BINARY ─── */
+  .binary-field {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .bin {
+    position: absolute;
+    font-family: 'DM Sans', monospace;
+    font-size: 0.7rem;
+    color: var(--teal);
+    opacity: 0;
+    animation: floatBin linear infinite;
+    white-space: nowrap;
+    letter-spacing: 2px;
+  }
+  @keyframes floatBin {
+    0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+    10% { opacity: 0.15; }
+    90% { opacity: 0.08; }
+    100% { transform: translateY(-20vh) translateX(30px); opacity: 0; }
+  }
+
+  /* ─── NAVIGATION ─── */
+  nav {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    display: flex;
+    align-items:center;
+    gap: 4px;
+    max-width: calc(100vw - 32px);
+    overflow-x: auto;
+    background: linear-gradient(155deg,rgba(17,36,46,.94),rgba(5,13,21,.91));
+    border: 1px solid rgba(148,196,193,.3);
+    backdrop-filter: blur(24px);
+    border-radius: 14px;
+    padding: 8px 10px;
+    counter-reset: nav-section;
+    box-shadow:0 14px 38px rgba(0,0,0,.34),inset 0 1px rgba(255,255,255,.09),0 0 24px rgba(66,137,155,.08);
+    isolation:isolate;
+    scrollbar-width: none;
+    opacity: 0;
+    animation: fadeDown 1s 2s both;
+  }
+  nav::before{content:'';position:absolute;left:18px;right:18px;top:0;height:1px;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(206,106,108,.65),rgba(148,196,193,.85),transparent);opacity:.82;z-index:-1}
+  .nav-link {
+    counter-increment:nav-section;
+    display:flex;
+    align-items:center;
+    gap:7px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: .8px;
+    color: rgba(249,199,190,.78);
+    text-decoration: none;
+    padding: 9px 11px;
+    border:1px solid transparent;
+    border-radius: 8px;
+    white-space: nowrap;
+    transition: color .22s ease,border-color .22s ease,background .22s ease,box-shadow .22s ease,transform .22s ease;
+    text-transform: uppercase;
+  }
+  .nav-link::before{content:counter(nav-section,decimal-leading-zero);font-size:.55rem;font-weight:600;letter-spacing:.4px;color:rgba(148,196,193,.58);font-variant-numeric:tabular-nums;transition:color .22s ease}
+  .nav-link:hover {
+    background: rgba(206,106,108,.12);
+    border-color:rgba(206,106,108,.24);
+    color: #fff;
+    transform:translateY(-1px);
+  }
+  .nav-link[aria-current="location"]{color:#fff;background:linear-gradient(145deg,rgba(148,196,193,.17),rgba(66,137,155,.1));border-color:rgba(148,196,193,.28);box-shadow:inset 0 1px rgba(255,255,255,.08),0 0 16px rgba(148,196,193,.1)}
+  .nav-link[aria-current="location"]::before{color:var(--peach);text-shadow:0 0 9px rgba(148,196,193,.78)}
+  .nav-progress-label{align-self:center;display:flex;align-items:center;gap:7px;margin-left:3px;padding:8px 9px;color:var(--teal);font-size:.59rem;font-variant-numeric:tabular-nums;letter-spacing:1px;white-space:nowrap;border-left:1px solid rgba(148,196,193,.24)}
+  .nav-progress-label::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--coral);box-shadow:0 0 9px rgba(206,106,108,.8)}
+  .scroll-progress{position:fixed;inset:0 0 auto;z-index:150;height:3px;background:rgba(255,255,255,.06);pointer-events:none}
+  .scroll-progress-fill{display:block;width:100%;height:100%;transform:scaleX(0);transform-origin:left center;background:linear-gradient(90deg,var(--coral),var(--peach),var(--teal));box-shadow:0 0 12px rgba(148,196,193,.62)}
+
+  /* ─── SECTIONS ─── */
+  section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 40px;
+    position: relative;
+  }
+
+  /* ─── ABOUT ─── */
+  #about {
+    background: linear-gradient(180deg, transparent 0%, rgba(40,64,92,0.3) 50%, transparent 100%);
+  }
+  .about-glass {
+    max-width: 800px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: var(--glass-blur);
+    border-radius: 32px;
+    padding: 60px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(60px);
+    transition: all 0.9s cubic-bezier(0.16,1,0.3,1);
+  }
+  .about-glass.visible { opacity: 1; transform: translateY(0); }
+  .about-glass::before {
+    content: '';
+    position: absolute;
+    top: -2px; left: -2px; right: -2px; bottom: -2px;
+    border-radius: 34px;
+    background: linear-gradient(135deg, var(--coral), var(--teal), var(--ocean), var(--coral));
+    background-size: 400% 400%;
+    animation: borderShift 8s ease-in-out infinite;
+    z-index: -1;
+    opacity: 0.4;
+  }
+  @keyframes borderShift {
+    0%,100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  .about-glass::after {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    border-radius: 31px;
+    background: linear-gradient(135deg, rgba(26,15,20,0.95), rgba(13,31,45,0.95));
+    z-index: -1;
+  }
+  .about-tag {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--coral);
+    margin-bottom: 16px;
+  }
+  .about-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--blush);
+    margin-bottom: 32px;
+    line-height: 1.1;
+  }
+  .about-text {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: rgba(240,232,229,0.8);
+    font-weight: 300;
+  }
+  .about-text + .about-text { margin-top: 16px; }
+
+  /* ─── PROJECTS / ISLANDS ─── */
+  #projects {
+    padding: 120px 0 90px;
+    overflow: visible;
+  }
+  .section-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 12px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.7s ease;
+  }
+  .section-label.visible { opacity: 1; transform: translateY(0); }
+  .section-heading {
+    width: min(100%, 900px);
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 5rem);
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--blush), var(--coral));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 32px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s 0.1s ease;
+  }
+  .section-heading.visible { opacity: 1; transform: translateY(0); }
+
+  /* Horizontal island scroll */
+  .islands-track-wrap {
+    width: 100%;
+    overflow-x: auto;
+    padding: 40px 80px 60px;
+    scrollbar-width: none;
+  }
+  .islands-track-wrap::-webkit-scrollbar { display: none; }
+  .islands-track {
+    display: flex;
+    gap: 40px;
+    width: max-content;
+  }
+  .island {
+    width: 340px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: var(--glass-blur);
+    border-radius: 28px;
+    padding: 40px 36px;
+    position: relative;
+    overflow: hidden;
+    cursor: none;
+    transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s ease;
+    opacity: 0;
+    transform: translateY(80px) scale(0.92);
+    flex-shrink: 0;
+  }
+  .island.visible { opacity: 1; transform: translateY(0) scale(1); }
+  .island:hover {
+    transform: translateY(-16px) scale(1.03);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.4), 0 0 60px rgba(148,196,193,0.2);
+  }
+  .island-glow {
+    position: absolute;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.25;
+    top: -60px; right: -60px;
+    pointer-events: none;
+    transition: opacity 0.5s;
+  }
+  .island:hover .island-glow { opacity: 0.45; }
+  .island-emoji {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    display: block;
+    filter: drop-shadow(0 0 20px rgba(206,106,108,0.5));
+    animation: islandFloat 3s ease-in-out infinite;
+  }
+  @keyframes islandFloat {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .island h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--blush);
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+  .island p {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: rgba(240,232,229,0.65);
+    font-weight: 300;
+    margin-bottom: 24px;
+  }
+  .island-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tag {
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    padding: 5px 14px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    font-weight: 500;
+    border: 1px solid;
+  }
+  .tag.coral { color: var(--coral); border-color: rgba(206,106,108,0.4); background: rgba(206,106,108,0.1); }
+  .tag.teal { color: var(--teal); border-color: rgba(148,196,193,0.4); background: rgba(148,196,193,0.1); }
+  .tag.ocean { color: var(--peach); border-color: rgba(237,173,163,0.4); background: rgba(237,173,163,0.1); }
+
+  /* Island neuron canvas */
+  .island-canvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border-radius: 28px;
+    pointer-events: none;
+    opacity: 0.18;
+  }
+
+  /* ─── SKILLS ─── */
+  #skills {
+    background: linear-gradient(180deg, transparent 0%, rgba(66,137,155,0.08) 50%, transparent 100%);
+  }
+  .skills-grid {
+    display: none;
+  }
+  .skill-orb {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: var(--glass-blur);
+    border-radius: 20px;
+    padding: 24px 16px;
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    opacity: 0;
+    transform: translateY(40px) scale(0.9);
+    cursor: none;
+  }
+  .skill-orb.visible { opacity: 1; transform: translateY(0) scale(1); }
+  .skill-orb:hover {
+    transform: translateY(-8px) scale(1.08);
+    background: rgba(255,255,255,0.13);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 30px rgba(148,196,193,0.2);
+    border-color: rgba(148,196,193,0.4);
+  }
+  .skill-icon {
+    font-size: 2rem;
+    filter: drop-shadow(0 0 10px rgba(148,196,193,0.5));
+  }
+  .skill-name {
+    font-size: 0.78rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--peach);
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .scene-caption,.section-intro{color:rgba(240,232,229,.58);font-size:.92rem;line-height:1.7;text-align:center;max-width:720px;margin:0 auto 28px}
+  .project-world{position:relative;width:min(1180px,calc(100% - 48px));height:min(66vh,660px);min-height:420px;margin:0 auto;border:1px solid rgba(148,196,193,.24);border-radius:18px;overflow:hidden;background:radial-gradient(ellipse at 50% 72%,rgba(42,113,128,.28),rgba(6,14,22,.74) 68%);box-shadow:inset 0 0 90px rgba(40,90,105,.16),0 26px 70px rgba(0,0,0,.28)}
+  #project-canvas{width:100%;height:100%;display:block;touch-action:none}
+  .world-labels{position:absolute;inset:0;pointer-events:none}
+  .world-label{position:absolute;transform:translate(-50%,-50%);font-family:'Playfair Display',serif;font-size:.96rem;color:var(--blush);text-shadow:0 2px 15px #071018,0 0 20px rgba(206,106,108,.5);white-space:nowrap;opacity:0;transition:opacity .28s;pointer-events:auto;cursor:pointer;border:1px solid rgba(148,196,193,.32);border-radius:7px;background:rgba(7,18,27,.84);backdrop-filter:blur(12px);padding:7px 12px;box-shadow:0 0 24px rgba(66,137,155,.12)}
+  .world-label:focus-visible{opacity:1;outline:2px solid var(--teal);outline-offset:3px}
+  .world-label.visible{opacity:1}
+  .world-label:hover{border-color:var(--peach);background:rgba(18,38,49,.96);box-shadow:0 0 22px rgba(148,196,193,.24),inset 0 1px rgba(255,255,255,.12);transform:translate(-50%,-50%) scale(1.04)}
+  .world-help{position:absolute;left:18px;bottom:15px;color:rgba(240,232,229,.45);font-size:.68rem;letter-spacing:1.5px;text-transform:uppercase;pointer-events:none}
+  .world-count{position:absolute;right:18px;bottom:15px;color:var(--teal);font-size:.7rem;letter-spacing:2px;text-transform:uppercase;pointer-events:none}
+  .project-detail{position:fixed;inset:0;z-index:500;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(3,9,14,.78);backdrop-filter:blur(12px)}
+  .project-detail.open{display:flex}
+  .detail-panel{position:relative;width:min(680px,100%);max-height:86vh;overflow:auto;padding:38px;background:linear-gradient(145deg,rgba(18,35,47,.98),rgba(9,18,26,.98));border:1px solid rgba(148,196,193,.38);border-radius:18px;box-shadow:0 30px 100px rgba(0,0,0,.45),inset 0 1px rgba(255,255,255,.08)}
+  .detail-close{position:absolute;top:12px;right:14px;width:36px;height:36px;display:grid;place-items:center;border:1px solid rgba(148,196,193,.22);border-radius:9px;background:linear-gradient(145deg,rgba(20,42,53,.9),rgba(7,18,26,.94));color:var(--peach);font-size:1.2rem;cursor:pointer}
+  .detail-close:hover{border-color:var(--coral);color:#fff;background:rgba(206,106,108,.18);box-shadow:0 0 16px rgba(206,106,108,.2)}
+  .detail-kicker,.eyebrow{font-size:.68rem;letter-spacing:4px;text-transform:uppercase;color:var(--teal)}
+  .detail-panel h3{font:700 2rem 'Playfair Display',serif;color:var(--blush);margin:9px 36px 14px 0}
+  .detail-panel p{font-size:.9rem;line-height:1.8;color:rgba(240,232,229,.72);margin:0 0 14px}
+  .detail-stack{color:var(--peach)!important;font-size:.78rem!important;letter-spacing:.5px}
+  .detail-link{display:inline-flex;margin-top:8px;color:var(--teal);text-underline-offset:4px}
+
+  #skills{min-height:100vh}
+  .skill-controls{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin:0 auto 16px}
+  .skill-filter{font:500 .68rem 'DM Sans',sans-serif;letter-spacing:1.3px;text-transform:uppercase;color:rgba(240,232,229,.68);border:1px solid rgba(148,196,193,.22);border-radius:7px;background:linear-gradient(145deg,rgba(20,42,53,.82),rgba(7,18,26,.88));padding:10px 14px;cursor:pointer;transition:color .25s,border-color .25s,background .25s,box-shadow .25s}
+  .skill-filter:hover,.skill-filter[aria-pressed="true"]{color:#fff;border-color:var(--teal);background:linear-gradient(145deg,rgba(66,137,155,.28),rgba(12,32,42,.92));box-shadow:0 0 18px rgba(148,196,193,.16),inset 0 0 12px rgba(148,196,193,.08)}
+  .skill-stage{position:relative;width:min(1120px,calc(100% - 32px));height:510px;margin:0 auto;overflow:hidden;isolation:isolate}
+  .skill-stage::before{content:'';position:absolute;z-index:-1;inset:4% 4% 5%;pointer-events:none;background:radial-gradient(ellipse at 25% 27%,rgba(206,106,108,.11),transparent 26%),radial-gradient(ellipse at 75% 27%,rgba(148,196,193,.11),transparent 26%),radial-gradient(ellipse at 25% 75%,rgba(237,173,163,.1),transparent 25%),radial-gradient(ellipse at 75% 75%,rgba(66,137,155,.12),transparent 25%),radial-gradient(ellipse at center,rgba(148,196,193,.055),transparent 68%);filter:blur(2px)}
+  .skill-orbit{position:absolute;z-index:-1;left:50%;top:50%;width:88%;height:82%;transform:translate(-50%,-50%);border:1px solid rgba(148,196,193,.16);border-radius:50%;pointer-events:none;background:repeating-radial-gradient(ellipse at center,transparent 0 74px,rgba(148,196,193,.035) 75px 76px)}
+  .skill-orbit::before,.skill-orbit::after{content:'';position:absolute;inset:12% 15%;border:1px solid rgba(148,196,193,.11);border-radius:50%}
+  .skill-orbit::after{inset:25% 31%;border-color:rgba(206,106,108,.11)}
+  .skill-cluster-label{position:absolute;z-index:1;display:flex;align-items:center;gap:8px;max-width:38%;color:rgba(240,232,229,.62);font-size:.61rem;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;pointer-events:none;text-shadow:0 1px 12px rgba(5,13,20,.9)}
+  .skill-cluster-label::before{content:'';width:16px;height:1px;background:var(--cluster-color);box-shadow:0 0 9px var(--cluster-color);opacity:.8}
+  .skill-cluster-label[data-cluster="data"]{--cluster-color:var(--peach);left:10%;top:10%}
+  .skill-cluster-label[data-cluster="engineering"]{--cluster-color:var(--teal);right:8%;top:10%}
+  .skill-cluster-label[data-cluster="neuro"]{--cluster-color:var(--coral);left:10%;bottom:9%}
+  .skill-cluster-label[data-cluster="web"]{--cluster-color:var(--ocean);right:8%;bottom:9%}
+  #skills-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
+  .skill-readout{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);max-width:calc(100% - 28px);padding:7px 11px;border:1px solid rgba(148,196,193,.22);border-radius:7px;background:rgba(5,13,20,.78);color:var(--teal);font-size:.68rem;letter-spacing:1px;pointer-events:none;opacity:0;transition:opacity .25s ease}
+  .skill-readout.active{opacity:1}
+
+  .two-column{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;width:min(1060px,100%)}
+  .research-piece,.timeline-entry{border-left:1px solid rgba(148,196,193,.38);padding:6px 0 8px 22px}
+  .research-piece h3,.timeline-entry h3{font:700 1.35rem 'Playfair Display',serif;color:var(--blush);margin:8px 0}
+  .research-piece p,.timeline-entry p{font-size:.88rem;line-height:1.8;color:rgba(240,232,229,.65)}
+  .text-link{display:inline-block;margin-top:12px;color:var(--teal);font-size:.8rem;letter-spacing:.5px;text-underline-offset:4px}
+  .eeg-shell{width:min(1060px,100%);margin:30px auto 0;padding:20px 20px 14px;border:1px solid rgba(255,255,255,.1);border-radius:8px;background:rgba(5,13,20,.52)}
+  .eeg-toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:8px}
+  .eeg-bands{display:flex;gap:5px;flex-wrap:wrap}
+  .eeg-band{padding:8px 12px;border:1px solid rgba(148,196,193,.22);border-radius:7px;background:linear-gradient(145deg,rgba(20,42,53,.72),rgba(7,18,26,.72));color:rgba(240,232,229,.74);font:500 .65rem 'DM Sans',sans-serif;letter-spacing:1px;text-transform:uppercase;cursor:pointer}
+  .eeg-band[aria-pressed="true"]{border-color:var(--coral);color:var(--blush);background:linear-gradient(145deg,rgba(206,106,108,.22),rgba(66,137,155,.12));box-shadow:inset 0 1px rgba(255,255,255,.1),0 0 14px rgba(206,106,108,.14)}
+  .eeg-band:hover:not([aria-pressed="true"]){border-color:rgba(148,196,193,.62);color:#fff;background:rgba(148,196,193,.1)}
+  .eeg-hint{font-size:.68rem;color:rgba(240,232,229,.38)}
+  #eeg-plot{width:100%;height:240px;display:block;touch-action:none}
+  .game-shell{width:min(760px,100%);text-align:center;padding:24px;border:1px solid rgba(148,196,193,.22);border-radius:18px;background:linear-gradient(150deg,rgba(18,39,51,.72),rgba(6,16,23,.82));box-shadow:inset 0 1px rgba(255,255,255,.06),0 22px 60px rgba(0,0,0,.24)}
+  #reflex-canvas{width:100%;height:340px;display:block;border:1px solid rgba(148,196,193,.24);border-radius:12px;background:radial-gradient(ellipse at center,rgba(15,47,56,.28),rgba(2,9,14,.82));touch-action:manipulation}
+  .game-ring{position:absolute;inset:0;pointer-events:none;filter:drop-shadow(0 0 5px currentColor)}
+  .game-ring-track{fill:none;stroke:rgba(255,255,255,.12);stroke-width:3}
+  .game-ring-progress{fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;transform:rotate(-90deg);transform-origin:center}
+  .game-hud{display:flex;justify-content:space-between;align-items:center;margin:14px 0;color:var(--peach);font-size:.75rem;letter-spacing:2px;text-transform:uppercase}
+  .game-hud strong{display:block;color:var(--blush);font:700 1.5rem 'Playfair Display',serif;letter-spacing:0}
+  .game-start{padding:10px 18px;border:1px solid var(--coral);border-radius:4px;color:#fff;background:rgba(206,106,108,.18);font:500 .72rem 'DM Sans',sans-serif;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer}
+  .skill-filter,.eeg-band,.game-start,.detail-close,.nav-link{transition:color .22s ease,border-color .22s ease,background .22s ease,box-shadow .22s ease,transform .22s ease}
+  .skill-filter:active,.eeg-band:active,.game-start:active{transform:translateY(1px) scale(.98)}
+  .skill-filter:focus-visible,.eeg-band:focus-visible,.game-start:focus-visible,.detail-close:focus-visible,.nav-link:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+  .game-start{border-radius:8px;background:linear-gradient(145deg,rgba(206,106,108,.32),rgba(66,137,155,.2));box-shadow:inset 0 1px rgba(255,255,255,.12),0 5px 18px rgba(0,0,0,.2)}
+  .contact-btn{border:1px solid rgba(148,196,193,.24);box-shadow:inset 0 1px rgba(255,255,255,.06),0 8px 22px rgba(0,0,0,.18)}
+  .contact-btn:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+  .game-start:hover{border-color:var(--peach);box-shadow:0 0 20px rgba(206,106,108,.22),inset 0 1px rgba(255,255,255,.16)}
+  .game-message{min-height:1.5em;color:var(--teal);font-size:.85rem}
+  .timeline{width:min(1040px,100%);display:grid;grid-template-columns:1fr 1fr;gap:30px 48px;margin:0 auto}
+  .timeline-entry{position:relative;border:1px solid rgba(148,196,193,.17);border-radius:12px;padding:20px 22px 20px 25px;background:linear-gradient(145deg,rgba(20,42,53,.54),rgba(8,18,27,.64));box-shadow:inset 0 1px rgba(255,255,255,.04)}
+  .timeline-entry::before{content:'';position:absolute;left:-1px;top:20px;bottom:20px;width:2px;background:linear-gradient(var(--teal),var(--coral));box-shadow:0 0 12px rgba(148,196,193,.4)}
+  .timeline-entry .eyebrow{font-size:.62rem;letter-spacing:2px;line-height:1.5}
+  .timeline-entry .eyebrow{letter-spacing:2px}
+  .site-header{position:fixed;inset:0 0 auto;z-index:100;display:flex;justify-content:center;pointer-events:none}
+  .site-header nav{pointer-events:auto}
+  section[id]{scroll-margin-top:90px}
+  .skip-link{position:fixed;top:-60px;left:12px;z-index:1000;padding:10px;background:#fff;color:#111}
+  .skip-link:focus{top:12px}
+  .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+  /* ─── CONTACT ─── */
+  #contact {
+    background: linear-gradient(180deg, transparent 0%, rgba(26,15,20,0.5) 100%);
+  }
+  .contact-island {
+    max-width: 640px;
+    width: 100%;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: var(--glass-blur);
+    border-radius: 36px;
+    padding: 70px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(60px);
+    transition: all 0.9s cubic-bezier(0.16,1,0.3,1);
+  }
+  .contact-island.visible { opacity: 1; transform: translateY(0); }
+  .contact-island::before {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: 50%;
+    transform: translateX(-50%);
+    width: 400px; height: 150px;
+    background: radial-gradient(ellipse, rgba(148,196,193,0.3), transparent);
+    border-radius: 50%;
+    filter: blur(30px);
+  }
+  .contact-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--blush);
+    margin-bottom: 12px;
+  }
+  .contact-sub {
+    color: rgba(240,232,229,0.5);
+    font-size: 0.95rem;
+    font-weight: 300;
+    margin-bottom: 48px;
+    letter-spacing: 1px;
+  }
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .contact-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+    text-transform: uppercase;
+  }
+  .contact-btn.primary {
+    background: linear-gradient(135deg, var(--coral), var(--ocean));
+    color: #fff;
+    box-shadow: 0 8px 30px rgba(206,106,108,0.4);
+  }
+  .contact-btn.primary:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 16px 50px rgba(206,106,108,0.5);
+  }
+  .contact-btn.ghost {
+    border: 1px solid var(--glass-border);
+    color: var(--peach);
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+  }
+  .contact-btn.ghost:hover {
+    transform: translateY(-4px);
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(148,196,193,0.5);
+    color: var(--teal);
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    text-align: center;
+    padding: 40px;
+    color: rgba(240,232,229,0.25);
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    font-weight: 300;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ─── SHARED ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translate(-50%, -20px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
+  }
+
+  /* ─── WATER DIVIDER ─── */
+  .water-divider {
+    width: 100%;
+    height: 120px;
+    position: relative;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .water-wave {
+    position: absolute;
+    bottom: 0;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(180deg, transparent, rgba(66,137,155,0.08));
+    border-radius: 50% 50% 0 0 / 80% 80% 0 0;
+    animation: wave 8s ease-in-out infinite;
+  }
+  .water-wave:nth-child(2) {
+    animation-delay: -4s;
+    opacity: 0.5;
+    background: linear-gradient(180deg, transparent, rgba(148,196,193,0.06));
+  }
+  @keyframes wave {
+    0%,100% { transform: translateX(-25%) scaleY(1); }
+    50% { transform: translateX(-15%) scaleY(1.3); }
+  }
+
+  /* ─── NEURON PULSE ─── */
+  .neuron-dot {
+    position: absolute;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--teal);
+    box-shadow: 0 0 12px var(--teal);
+    animation: neuronPulse 2s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes neuronPulse {
+    0%,100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(2); opacity: 1; }
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .section-heading { font-size: 2.2rem; }
+    .about-glass { padding: 40px 28px; }
+    .about-title { font-size: 2.4rem; }
+    .contact-island { padding: 50px 32px; }
+    nav { top: 8px; left: 8px; right: 8px; transform:none; max-width:none; justify-content:center; flex-wrap:wrap; overflow-x:hidden; max-height:88px; padding:3px 5px; animation:none; opacity:1; }
+    .nav-link { flex:0 0 auto;padding:6px 8px;font-size:.61rem;gap:0; }
+    .nav-link::before{display:none}
+    .nav-progress-label{display:none}
+    .island { width: 290px; }
+    .project-world{width:calc(100% - 24px);height:58vh;min-height:380px}
+    .skill-stage{width:calc(100% - 24px);height:460px}
+    .two-column,.timeline{grid-template-columns:1fr}
+    .detail-panel{padding:30px 22px}
+    .game-shell{padding:14px}
+    .timeline-entry{padding:17px 17px 17px 20px}
+    #eeg-plot{height:200px}
+    #reflex-canvas{height:300px}
+    .world-help{max-width:75%;line-height:1.5}
+    .world-label{max-width:44%;white-space:normal;text-align:center;line-height:1.2;font-size:.78rem;padding:6px 8px}
+    .skill-cluster-label{max-width:43%;font-size:.52rem;letter-spacing:.6px;line-height:1.35;gap:5px}
+    .skill-cluster-label[data-cluster="data"]{left:3%;top:7%}
+    .skill-cluster-label[data-cluster="engineering"]{right:3%;top:7%;justify-content:flex-end;text-align:right}
+    .skill-cluster-label[data-cluster="neuro"]{left:3%;bottom:6%}
+    .skill-cluster-label[data-cluster="web"]{right:3%;bottom:6%;justify-content:flex-end;text-align:right}
+    .skill-orbit{width:96%;height:80%;background:repeating-radial-gradient(ellipse at center,transparent 0 48px,rgba(148,196,193,.035) 49px 50px)}
+  }
+</style>
 </head>
 <body>
-    <canvas id="neural-network"></canvas>
-    
-    <div class="content">
-        <header>
-            <div class="floating-orbs">
-                <div class="orb"></div>
-                <div class="orb"></div>
-                <div class="orb"></div>
-                <div class="orb"></div>
-            </div>
-            <div class="particles" id="particles"></div>
-            <div class="grain"></div>
-            <div class="header-content">
-                <div class="profile-container">
-                    <div class="profile-pic">
-                        <img src="./rizulspfp.png" alt="Profile Picture">
-                    </div>
-                </div>
-                <div class="text-content">
-                    <h1>RIZUL SHARMA</h1>
-                    <p class="tagline">Developer • Designer • Innovator</p>
-                </div>
-            </div>
-            <div class="scroll-indicator"></div>
-        </header>
 
-        <nav>
-            <a href="#about" class="nav-btn">About</a>
-            <a href="#projects" class="nav-btn">Projects</a>
-            <a href="#skills" class="nav-btn">Skills</a>
-            <a href="#contact" class="nav-btn">Contact</a>
-        </nav>
+<a class="skip-link" href="#main-content">Skip to content</a>
+<div class="scroll-progress" aria-hidden="true"><span class="scroll-progress-fill" id="scroll-progress-fill"></span></div>
 
-        <main>
-            <section id="about" class="section">
-                <h2 class="section-title">About Me</h2>
-                <div class="card">
-                    <p>Hey there! I’m Rizul, a student and lifelong tech builder who’s obsessed with how things work, from algorithms to the human brain.</p>
-                    <br>
-                    <p>I’ve been in STEM since Grade 6, diving into robotics, design challenges, hackathons, and anything that lets me create something meaningful. Today, I focus on programming, math, and interactive design. I love building projects that mix aesthetic visuals with technical depth, whether that’s glowing UI, simulations, or AI-inspired patterns.</p>
-                    <br>
-                    <p>Outside of code, I’m curious about how the brain thinks, learns, and reacts, especially in real-world situations. My work blends technical skill with creativity, and I’m always exploring new ways to express ideas digitally.</p>
-                </div>
-            </section>
+<!-- Custom cursor -->
+<div id="cursor"></div>
+<div id="cursor-trail"></div>
 
-            <section id="projects" class="section">
-                <h2 class="section-title">Featured Projects</h2>
-                <div class="card-grid">
-                    <div class="card">
-                        <h3>🚀 project 1 placeholder</h3>
-                        <p>gurp i have nothing written yet.</p>
-                        <div class="skills">
-                            <span class="skill-tag">idk</span>
-                            <span class="skill-tag">idk</span>
-                            <span class="skill-tag">idk</span>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <h3>🎨 project 2 placeholder</h3>
-                        <p>gurp i have nothing written yet.</p>
-                        <div class="skills">
-                            <span class="skill-tag">CSS</span>
-                            <span class="skill-tag">JavaScript</span>
-                            <span class="skill-tag">idk</span>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <h3>🤖 project 3 placeholder</h3>
-                        <p>gurp i have nothing written yet.</p>
-                        <div class="skills">
-                            <span class="skill-tag">Python</span>
-                            <span class="skill-tag">idk</span>
-                            <span class="skill-tag">idk</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
+<!-- Three.js 3D background canvas -->
+<canvas id="bg-canvas"></canvas>
 
-            <section id="skills" class="section">
-                <h2 class="section-title">Skills & Technologies</h2>
-                <div class="skills">
-                    <span class="skill-tag">JavaScript</span>
-                    <span class="skill-tag">Python</span>
-                    <span class="skill-tag">React</span>
-                    <span class="skill-tag">Node.js</span>
-                    <span class="skill-tag">TypeScript</span>
-                    <span class="skill-tag">HTML/CSS</span>
-                    <span class="skill-tag">Git</span>
-                    <span class="skill-tag">Docker</span>
-                    <span class="skill-tag">AWS</span>
-                    <span class="skill-tag">Machine Learning</span>
-                    <span class="skill-tag">SQL</span>
-                    <span class="skill-tag">REST APIs</span>
-                </div>
-            </section>
-        </main>
+<!-- Floating binary numbers -->
+<div class="binary-field" id="binary-field"></div>
 
-        <footer id="contact">
-            <h2 class="section-title">Let's Connect</h2>
-            <div class="social-links">
-                <a href="https://github.com/rxzxlsh" class="social-icon" target="_blank">𝗚</a>
-                <a href="https://linkedin.com/in/rizul-sharmaa" class="social-icon" target="_blank">𝗟</a>
-                <a href="mailto:anvesha0108@gmail.com" class="social-icon" target="_blank">✉</a>
-                <a href="https://twitter.com/rxzxl_s" class="social-icon" target="_blank">𝕏</a>
-            </div>
-            <p style="opacity: 0.7; margin-top: 20px;">&copy; 2024 Rizul Sharma. All rights reserved.</p>
-        </footer>
+<!-- Navigation -->
+<nav aria-label="Portfolio sections">
+  <a href="#hero" class="nav-link">Home</a>
+  <a href="#about" class="nav-link">About</a>
+  <a href="#projects" class="nav-link">Projects</a>
+  <a href="#experience" class="nav-link">Experience</a>
+  <a href="#skills" class="nav-link">Skills</a>
+  <a href="#research" class="nav-link">Research</a>
+  <a href="#play" class="nav-link">Play</a>
+  <a href="#contact" class="nav-link">Contact</a>
+  <span class="nav-progress-label" id="nav-progress-label" aria-live="polite">01 / 08</span>
+</nav>
+
+<main class="content" id="main-content">
+
+  <!-- ── HERO ── -->
+  <section id="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Neuroscience · Computer Science · Statistics · UofT</p>
+      <h1 class="hero-name">Rizul<br><em>Sharma</em></h1>
+      <p class="hero-sub">Developer &nbsp;·&nbsp; Researcher &nbsp;·&nbsp; Builder</p>
     </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      <span>Scroll to explore</span>
+    </div>
+  </section>
 
-    <script>
-        // Particle generation
-        const particlesContainer = document.getElementById('particles');
-        for (let i = 0; i < 30; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 15 + 's';
-            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-            particlesContainer.appendChild(particle);
+  <!-- water divider -->
+  <div class="water-divider">
+    <div class="water-wave"></div>
+    <div class="water-wave"></div>
+  </div>
+
+  <!-- ── ABOUT ── -->
+  <section id="about">
+    <div class="about-glass reveal">
+      <p class="about-tag">01 — About</p>
+      <h2 class="about-title">Hi, I'm Rizul.</h2>
+      <p class="about-text">I'm an undergraduate at the University of Toronto Mississauga studying Neuroscience, Computer Science, and Statistics! I’m interested in a shared question across those fields: how do systems process information, and where do they break down?</p>
+      <p class="about-text">I build software and simulations, write about cognitive science and AI, and create learning resources tailored to individual students. My work ranges from reinforcement-learning transit models to a campus innovation game and research on AI-assisted scholarship.</p>
+      <p class="about-text">I’m most energized by projects where technical systems meet human needs: making complex information clearer, learning more engaging, or technology more accountable!</p>
+    </div>
+  </section>
+
+  <!-- water divider -->
+  <div class="water-divider">
+    <div class="water-wave"></div>
+    <div class="water-wave"></div>
+  </div>
+
+  <!-- ── PROJECTS ── -->
+  <section id="projects">
+    <p class="section-label reveal">02 — Brain Islands</p>
+    <h2 class="section-heading reveal">Projects as a living world</h2>
+    <p class="section-intro">Drag to orbit, scroll to move through the field, and select an island to open its project notes.</p>
+    <div class="project-world" id="project-world">
+      <canvas id="project-canvas" aria-label="Interactive three-dimensional project island scene. Drag to orbit and select an island for details."></canvas>
+      <div class="world-labels" id="world-labels"></div>
+      <span class="world-help">Drag to orbit · wheel or trackpad to zoom · click a node</span>
+      <span class="world-count">8 research + build islands</span>
+    </div>
+    <div class="project-detail" id="project-detail" role="dialog" aria-modal="true" aria-labelledby="detail-title">
+      <article class="detail-panel">
+        <button class="detail-close" id="detail-close" type="button" aria-label="Close project details">×</button>
+        <span class="detail-kicker" id="detail-kicker"></span>
+        <h3 id="detail-title"></h3>
+        <p id="detail-description"></p>
+        <p class="detail-stack" id="detail-stack"></p>
+        <p id="detail-extra"></p>
+        <a class="detail-link" id="detail-link" href="#" target="_blank" rel="noreferrer" hidden>Open project or publication ↗</a>
+      </article>
+    </div>
+  </section>
+
+  <div class="water-divider"><div class="water-wave"></div><div class="water-wave"></div></div>
+
+  <section id="experience">
+    <p class="section-label reveal">03 — Practice & study</p>
+    <h2 class="section-heading reveal">Experience & education</h2>
+    <div class="timeline">
+      <article class="timeline-entry"><span class="eyebrow">Sep 2026–Present · University of Toronto Mississauga</span><h3>Case Strategy Coordinator</h3><p>Neurobusiness Association. Coordinates case strategy activities within the student association.</p></article>
+      <article class="timeline-entry"><span class="eyebrow">Mar 2026–Present · University of Toronto Mississauga</span><h3>Executive Event Coordinator</h3><p>UTM Hindu Student Association. Helps organize Diwali, Holi, and Vasant Panchami programming; coordinates logistics, promotion, outreach, and inclusive community events.</p></article>
+      <article class="timeline-entry"><span class="eyebrow">Mar–Apr 2026 · Seasonal · University of Toronto Mississauga</span><h3>Chief Returning Officer</h3><p>UTM Women Student Association. Managed executive elections, nominations, candidate communications, confidential voting, eligibility checks, and election integrity.</p></article>
+      <article class="timeline-entry"><span class="eyebrow">Jun–Aug 2026 · Epilepsy South Central Ontario</span><h3>Epilepsy Camp Counsellor</h3><p>Supported a specialized day camp for children with epilepsy and siblings. Followed individualized seizure action plans, supported medication and first aid protocols, and adapted safe, engaging activities to campers' needs.</p></article>
+      <article class="timeline-entry"><span class="eyebrow">Clinical neuroscience · Epilepsy South Central Ontario</span><h3>Clinical Neuroscience Program Coordinator</h3><p>Coordinates neuroscience programming for youth with epilepsy and varying cognitive and developmental needs, connecting clinical neuroscience with accessible education.</p></article>
+      <article class="timeline-entry"><span class="eyebrow">Nov 2023–Present · Seasonal · Epilepsy South Central Ontario</span><h3>Fundraising Supervisor</h3><p>Works with Epilepsy South Central Ontario annually to fundraise for its winter Gift Wrap initiative.</p></article>
+      <article class="timeline-entry"><span class="eyebrow">May 2025–Present · School 2.0, Toronto</span><h3>STEM Instructor</h3><p>Teaches STEM topics including LEGO robotics.</p></article>
+      <article class="timeline-entry"><span class="eyebrow">Feb 2026–Sep 2026 · Scholars Education</span><h3>STEM Tutor</h3><p>Delivered individualized and small-group instruction in Advanced Functions, Calculus and Vectors, Data Management, Physics, Chemistry, and Biology, adapting lessons to student goals and progress.</p></article>
+      <article class="timeline-entry"><span class="eyebrow">Feb 2018–Present · Self-employed</span><h3>Private Tutor</h3><p>Mentors 15+ elementary and high-school learners in math, science, and introductory computer science. Builds tailored lesson plans and targeted practice; reported average student performance improvements of 10–25%.</p></article>
+      <article class="timeline-entry"><span class="eyebrow">2023–Present · University of Toronto Mississauga</span><h3>BSc · Neuroscience, Computer Science & Statistics</h3><p>Studies cognitive systems, computation, and data analysis. Coursework and independent projects connect neuroscience, software, statistics, and human-centered design.</p></article>
+    </div>
+  </section>
+
+  <!-- water divider -->
+  <div class="water-divider">
+    <div class="water-wave"></div>
+    <div class="water-wave"></div>
+  </div>
+
+  <!-- ── SKILLS ── -->
+  <section id="skills">
+    <p class="section-label reveal">04 — Toolkit</p>
+    <h2 class="section-heading reveal">Skills constellation</h2>
+    <p class="section-intro">Choose a domain to isolate its network. Drag nodes to rearrange the map; hover or focus a node to inspect it.</p>
+    <div class="skill-controls" role="group" aria-label="Filter skill network by subject area">
+      <button class="skill-filter" type="button" data-skill-filter="all" aria-pressed="true">All systems</button>
+      <button class="skill-filter" type="button" data-skill-filter="data" aria-pressed="false">Data & statistics</button>
+      <button class="skill-filter" type="button" data-skill-filter="engineering" aria-pressed="false">Systems & engineering</button>
+      <button class="skill-filter" type="button" data-skill-filter="neuro" aria-pressed="false">Neuro & bio</button>
+      <button class="skill-filter" type="button" data-skill-filter="web" aria-pressed="false">Web & visualization</button>
+    </div>
+    <div class="skill-stage">
+      <div class="skill-orbit" aria-hidden="true"></div>
+      <span class="skill-cluster-label" data-cluster="data">Data / statistics</span>
+      <span class="skill-cluster-label" data-cluster="engineering">Systems / engineering</span>
+      <span class="skill-cluster-label" data-cluster="neuro">Neuro / bio</span>
+      <span class="skill-cluster-label" data-cluster="web">Web / visualization</span>
+      <canvas id="skills-canvas" aria-label="Interactive skill constellation. Drag nodes to move them."></canvas>
+      <span class="skill-readout" id="skill-readout" aria-live="polite"></span>
+    </div>
+    <ul class="sr-only" id="skills-accessible" aria-label="Skills by subject area"></ul>
+  </section>
+
+  <div class="water-divider"><div class="water-wave"></div><div class="water-wave"></div></div>
+
+  <section id="research">
+    <p class="section-label reveal">05 — Research & writing</p>
+    <h2 class="section-heading reveal">How minds and models see</h2>
+    <div class="two-column">
+      <article class="research-piece"><span class="eyebrow">Published · University of Toronto Writing</span><h3>The AI Threat to Academic Credibility</h3><p>Year-one paper on how personalization, confirmation bias, and the availability heuristic can interact in AI-assisted scholarship. It argues for AI literacy, transparent systems, and verification rather than uncritical reliance.</p><a class="text-link" href="https://jps.library.utoronto.ca/index.php/writing/article/view/47545" target="_blank" rel="noreferrer">Read the published paper ↗</a></article>
+      <article class="research-piece"><span class="eyebrow">BIO152 · Scientific literacy op-ed</span><h3>Can Machines Ever See Like Us?</h3><p>Artificial neural networks capture parts of the visual cortex’s hierarchy, but robustness, feedback, and out-of-distribution generalization remain meaningful gaps. The evidence suggests functional resemblance, not a complete biological replica.</p><p>Explore the simulated oscillation bands below. The signal is illustrative, not recorded EEG.</p></article>
+    </div>
+    <div class="eeg-shell">
+      <div class="eeg-toolbar"><div class="eeg-bands" role="group" aria-label="Select an illustrative EEG frequency band"><button class="eeg-band" type="button" data-band="delta" aria-pressed="false">Delta</button><button class="eeg-band" type="button" data-band="theta" aria-pressed="false">Theta</button><button class="eeg-band" type="button" data-band="alpha" aria-pressed="true">Alpha</button><button class="eeg-band" type="button" data-band="beta" aria-pressed="false">Beta</button><button class="eeg-band" type="button" data-band="gamma" aria-pressed="false">Gamma</button></div><span class="eeg-hint" id="eeg-readout">Alpha · 8–13 Hz · simulated</span></div>
+      <svg id="eeg-plot" role="img" aria-label="Interactive simulated EEG time series. Drag to pan and use the scroll wheel to zoom."></svg>
+    </div>
+  </section>
+
+  <section id="play">
+    <p class="section-label reveal">06 — Reflex lab</p>
+    <h2 class="section-heading reveal">Neuron firing</h2>
+    <div class="game-shell"><p class="section-intro">Wait for the synapse to fire, then click the glowing neuron before its countdown ring closes. Each catch speeds up the next signal.</p><canvas id="reflex-canvas" aria-label="Neuron reflex game. Click the active glowing neuron before the circular timer expires."></canvas><div class="game-hud"><span>Score<strong id="game-score">0</strong></span><button class="game-start" id="game-start" type="button">Start experiment</button><span>Signals<strong id="game-lives">● ● ●</strong></span><span>Best<strong id="game-best">0</strong></span></div><p class="game-message" id="game-message" aria-live="polite">Ready when you are.</p></div>
+  </section>
+
+  <!-- water divider -->
+  <div class="water-divider">
+    <div class="water-wave"></div>
+    <div class="water-wave"></div>
+  </div>
+
+  <!-- ── CONTACT ── -->
+  <section id="contact">
+    <p class="section-label reveal">07 — Contact</p>
+    <div class="contact-island reveal">
+      <h2 class="contact-title">Let's connect.</h2>
+      <p class="contact-sub">I'm always building something new, reach out!</p>
+      <div class="contact-links">
+        <a href="mailto:anvesha0108@gmail.com" class="contact-btn primary">✉ Email me</a>
+        <a href="https://github.com/rxzxlsh" class="contact-btn ghost" target="_blank">⌥ GitHub</a>
+        <a href="https://linkedin.com/in/rizul-sharmaa" class="contact-btn ghost" target="_blank">◈ LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>Thank you for visiting!</footer>
+
+<!-- ─── THREE.JS CDN ─── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+
+<script>
+// ============================================================
+//  CUSTOM CURSOR
+// ============================================================
+const cursor = document.getElementById('cursor');
+const trail = document.getElementById('cursor-trail');
+let cx = 0, cy = 0, tx = 0, ty = 0;
+
+document.addEventListener('mousemove', e => {
+  cx = e.clientX; cy = e.clientY;
+  cursor.style.left = cx + 'px';
+  cursor.style.top = cy + 'px';
+});
+
+function animateTrail() {
+  tx += (cx - tx) * 0.12;
+  ty += (cy - ty) * 0.12;
+  trail.style.left = tx + 'px';
+  trail.style.top = ty + 'px';
+  requestAnimationFrame(animateTrail);
+}
+animateTrail();
+
+document.querySelectorAll('a, .island, .skill-orb, .contact-btn').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('expand'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('expand'));
+});
+
+// ============================================================
+//  FLOATING BINARY NUMBERS
+// ============================================================
+const binaryField = document.getElementById('binary-field');
+const binStrings = ['01010101','11001010','00110011','10101010','01100110','11110000','00001111','10011001','01011010','11000011'];
+for (let i = 0; i < 28; i++) {
+  const el = document.createElement('div');
+  el.className = 'bin';
+  el.textContent = binStrings[Math.floor(Math.random() * binStrings.length)];
+  el.style.left = Math.random() * 100 + '%';
+  el.style.animationDuration = (Math.random() * 20 + 18) + 's';
+  el.style.animationDelay = (Math.random() * 25) + 's';
+  el.style.fontSize = (Math.random() * 0.4 + 0.55) + 'rem';
+  binaryField.appendChild(el);
+}
+
+// ============================================================
+//  THREE.JS — 3D BRAIN SCENE
+// ============================================================
+(function() {
+  const canvas = document.getElementById('bg-canvas');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.set(0, 0, 18);
+
+  // Ambient + directional lights
+  scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+  const dirLight = new THREE.DirectionalLight(0x94c4c1, 1.2);
+  dirLight.position.set(5, 5, 5);
+  scene.add(dirLight);
+  const pinkLight = new THREE.PointLight(0xce6a6c, 2, 30);
+  pinkLight.position.set(-5, 3, 5);
+  scene.add(pinkLight);
+  const tealLight = new THREE.PointLight(0x42899b, 2, 30);
+  tealLight.position.set(5, -3, 5);
+  scene.add(tealLight);
+
+  // ── BRAIN CORE (icosahedron) ──
+  const brainGeo = new THREE.IcosahedronGeometry(4, 3);
+  const brainMat = new THREE.MeshPhongMaterial({
+    color: 0x94c4c1,
+    emissive: 0x1a2030,
+    specular: 0xffffff,
+    shininess: 80,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.18
+  });
+  const brain = new THREE.Mesh(brainGeo, brainMat);
+  scene.add(brain);
+
+  // Solid inner brain glow
+  const innerGeo = new THREE.IcosahedronGeometry(3.6, 2);
+  const innerMat = new THREE.MeshPhongMaterial({
+    color: 0x28405c,
+    emissive: 0x0d1f2d,
+    transparent: true,
+    opacity: 0.55,
+    shininess: 30
+  });
+  const innerBrain = new THREE.Mesh(innerGeo, innerMat);
+  scene.add(innerBrain);
+
+  // ── FLOATING ISLANDS (tetrahedra / geometry) ──
+  const islandColors = [0xce6a6c, 0x94c4c1, 0x42899b, 0xedada3, 0xf9c7be];
+  const islands = [];
+  for (let i = 0; i < 12; i++) {
+    const geo = i % 3 === 0
+      ? new THREE.TetrahedronGeometry(0.4 + Math.random() * 0.3)
+      : i % 3 === 1
+        ? new THREE.OctahedronGeometry(0.35 + Math.random() * 0.25)
+        : new THREE.IcosahedronGeometry(0.3 + Math.random() * 0.2, 0);
+
+    const mat = new THREE.MeshPhongMaterial({
+      color: islandColors[i % islandColors.length],
+      emissive: islandColors[i % islandColors.length],
+      emissiveIntensity: 0.3,
+      transparent: true,
+      opacity: 0.7,
+      shininess: 100
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+
+    const angle = (i / 12) * Math.PI * 2;
+    const r = 5 + Math.random() * 4;
+    mesh.position.set(
+      Math.cos(angle) * r,
+      (Math.random() - 0.5) * 8,
+      Math.sin(angle) * r - 4
+    );
+    mesh.userData = { speed: Math.random() * 0.01 + 0.005, phase: Math.random() * Math.PI * 2, angle };
+    scene.add(mesh);
+    islands.push(mesh);
+  }
+
+  // ── NEURON NODES ──
+  const nodeGeo = new THREE.SphereGeometry(0.08, 6, 6);
+  const nodeMat = new THREE.MeshBasicMaterial({ color: 0x94c4c1 });
+  const neuronNodes = [];
+  const neuronLines = [];
+  const neuronConnections = [];
+
+  for (let i = 0; i < 60; i++) {
+    const node = new THREE.Mesh(nodeGeo, nodeMat.clone());
+    const phi = Math.acos(-1 + (2 * i) / 60);
+    const theta = Math.sqrt(60 * Math.PI) * phi;
+    const r = 5 + Math.random() * 6;
+    node.position.set(
+      r * Math.sin(phi) * Math.cos(theta),
+      r * Math.sin(phi) * Math.sin(theta),
+      r * Math.cos(phi) - 2
+    );
+    scene.add(node);
+    neuronNodes.push(node);
+  }
+
+  // Connect some neurons
+  const lineMat = new THREE.LineBasicMaterial({ color: 0x42899b, transparent: true, opacity: 0.25 });
+  for (let i = 0; i < neuronNodes.length; i++) {
+    for (let j = i + 1; j < neuronNodes.length; j++) {
+      if (neuronNodes[i].position.distanceTo(neuronNodes[j].position) < 4) {
+        const points = [neuronNodes[i].position, neuronNodes[j].position];
+        const lineGeo = new THREE.BufferGeometry().setFromPoints(points);
+        const line = new THREE.Line(lineGeo, lineMat.clone());
+        scene.add(line);
+        neuronLines.push(line);
+        neuronConnections.push([neuronNodes[i], neuronNodes[j]]);
+      }
+    }
+  }
+
+  const signalGeometry = new THREE.SphereGeometry(0.055, 6, 6);
+  const signals = Array.from({ length: 24 }, (_, index) => {
+    const material = new THREE.MeshBasicMaterial({
+      color: index % 2 ? 0xf9c7be : 0x94c4c1,
+      transparent: true,
+      opacity: 0.8
+    });
+    const signal = new THREE.Mesh(signalGeometry, material);
+    signal.userData = {
+      connection: neuronConnections[index % neuronConnections.length],
+      progress: Math.random(),
+      speed: 0.0015 + Math.random() * 0.002
+    };
+    scene.add(signal);
+    return signal;
+  });
+
+  // ── PARTICLE SYSTEM ──
+  const particleCount = 500;
+  const positions = new Float32Array(particleCount * 3);
+  const particleSpeeds = [];
+  for (let i = 0; i < particleCount; i++) {
+    positions[i * 3]     = (Math.random() - 0.5) * 60;
+    positions[i * 3 + 1] = (Math.random() - 0.5) * 60;
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 60 - 10;
+    particleSpeeds.push({ x: (Math.random()-0.5)*0.002, y: (Math.random()-0.5)*0.002 });
+  }
+  const particleGeo = new THREE.BufferGeometry();
+  particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  const particleMat = new THREE.PointsMaterial({
+    color: 0xf9c7be,
+    size: 0.12,
+    transparent: true,
+    opacity: 0.5,
+    sizeAttenuation: true
+  });
+  const particles = new THREE.Points(particleGeo, particleMat);
+  scene.add(particles);
+
+  // ── MOUSE INTERACTION ──
+  let mouseX = 0, mouseY = 0;
+  let targetX = 0, targetY = 0;
+  document.addEventListener('mousemove', e => {
+    mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+    mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+  });
+
+  // ── SCROLL ──
+  let scrollY = 0;
+  window.addEventListener('scroll', () => { scrollY = window.scrollY; });
+
+  // ── ANIMATION LOOP ──
+  let t = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    t += 0.008;
+
+    // Smooth mouse follow
+    targetX += (mouseX - targetX) * 0.05;
+    targetY += (mouseY - targetY) * 0.05;
+
+    // Brain rotation
+    brain.rotation.y = t * 0.15 + targetX * 0.3;
+    brain.rotation.x = targetY * 0.2 + Math.sin(t * 0.3) * 0.05;
+    innerBrain.rotation.y = -t * 0.1;
+    innerBrain.rotation.x = Math.cos(t * 0.2) * 0.05;
+
+    // Camera moves on scroll
+    const scrollFactor = scrollY / window.innerHeight;
+    camera.position.z = 18 - scrollFactor * 6;
+    camera.position.y = scrollFactor * 2;
+
+    // Floating islands
+    islands.forEach(island => {
+      island.rotation.x += 0.01;
+      island.rotation.y += 0.008;
+      island.position.y += Math.sin(t + island.userData.phase) * 0.003;
+    });
+
+    // Neuron pulse
+    neuronNodes.forEach((node, i) => {
+      const scale = 1 + Math.sin(t * 2 + i * 0.3) * 0.4;
+      node.scale.set(scale, scale, scale);
+    });
+
+    // Neuron line flicker
+    neuronLines.forEach((line, i) => {
+      line.material.opacity = 0.1 + Math.sin(t + i * 0.5) * 0.15;
+    });
+    signals.forEach(signal => {
+      const { connection, speed } = signal.userData;
+      signal.userData.progress = (signal.userData.progress + speed) % 1;
+      signal.position.lerpVectors(connection[0].position, connection[1].position, signal.userData.progress);
+    });
+
+    // Particles drift
+    const pos = particleGeo.attributes.position.array;
+    for (let i = 0; i < particleCount; i++) {
+      pos[i * 3]     += particleSpeeds[i].x;
+      pos[i * 3 + 1] += particleSpeeds[i].y + Math.sin(t + i) * 0.0005;
+    }
+    particleGeo.attributes.position.needsUpdate = true;
+    particles.rotation.y = t * 0.02;
+
+    // Pink light pulsing
+    pinkLight.intensity = 1.5 + Math.sin(t * 1.5) * 0.8;
+    tealLight.intensity = 1.5 + Math.cos(t * 1.2) * 0.8;
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+})();
+
+// ============================================================
+//  ISLAND MINI NEURON CANVAS (2D)
+// ============================================================
+document.querySelectorAll('.island-canvas').forEach(canvas => {
+  const ctx = canvas.getContext('2d');
+  canvas.width = 340;
+  canvas.height = 420;
+  const nodes = Array.from({ length: 12 }, () => ({
+    x: Math.random() * 340,
+    y: Math.random() * 420,
+    vx: (Math.random() - 0.5) * 0.4,
+    vy: (Math.random() - 0.5) * 0.4,
+    r: Math.random() * 2 + 1
+  }));
+  function drawIslandNeurons() {
+    ctx.clearRect(0, 0, 340, 420);
+    nodes.forEach(n => {
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < 0 || n.x > 340) n.vx *= -1;
+      if (n.y < 0 || n.y > 420) n.vy *= -1;
+    });
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx = nodes[i].x - nodes[j].x;
+        const dy = nodes[i].y - nodes[j].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.strokeStyle = `rgba(148,196,193,${(1 - dist/120) * 0.6})`;
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
         }
+      }
+      ctx.beginPath();
+      ctx.arc(nodes[i].x, nodes[i].y, nodes[i].r, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(206,106,108,0.8)';
+      ctx.fill();
+    }
+    requestAnimationFrame(drawIslandNeurons);
+  }
+  drawIslandNeurons();
+});
 
-        // Neural network canvas
-        const canvas = document.getElementById('neural-network');
-        const ctx = canvas.getContext('2d');
-        
-        canvas.width = window.innerWidth;
-        canvas.height = document.documentElement.scrollHeight;
+// ============================================================
+//  SCROLL REVEAL
+// ============================================================
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
 
-        const nodes = [];
-        const nodeCount = 80;
-        let scrollProgress = 0;
-        let mouseX = 0;
-        let mouseY = 0;
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-        class Node {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() - 0.5) * 0.5;
-                this.radius = Math.random() * 2 + 1;
-                this.baseRadius = this.radius;
-            }
+// Alias reveal → classes used
+document.querySelectorAll('.about-glass, .section-label, .section-heading, .island, .skill-orb, .contact-island').forEach(el => {
+  el.classList.add('reveal');
+  revealObserver.observe(el);
+});
 
-            update() {
-                // Mouse interaction
-                const dx = mouseX - this.x;
-                const dy = mouseY - this.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                
-                if (distance < 200) {
-                    const force = (200 - distance) / 200;
-                    this.vx -= (dx / distance) * force * 0.2;
-                    this.vy -= (dy / distance) * force * 0.2;
-                }
+// ============================================================
+//  HORIZONTAL ISLAND SCROLL (mouse wheel → horizontal)
+// ============================================================
+// ============================================================
+//  PROJECT WORLD — ORBIT, SIGNALS, KEYBOARD-ACCESSIBLE LABELS
+// ============================================================
+const projectData = [
+  {name:'MediClear',kind:'Healthcare · Full-stack',emoji:'✚',color:0xce6a6c,stack:'React + Vite · Node.js/Express · MongoDB Atlas · Mongoose · Vercel + Render',description:'A dual-portal ER transparency platform. Patients use a temporary access code to follow treatment progress, while nurses manage intake, diagnostic steps, and machine availability from a command dashboard.',extra:'Built during a hackathon. Cloud deployment surfaced CORS and schema-validation issues; restructuring the treatment-step index resolved invalid progress calculations.',link:''},
+  {name:'Campus Quest',kind:'DeerHacks 2026 · Mobile · Web3',emoji:'⌖',color:0x94c4c1,stack:'React Native + Expo · Node.js/Express · MongoDB · Solana devnet · react-native-maps',description:'A campus innovation game where clubs create location-based micro-quests. Students scan QR codes, solve challenges, earn XP and devnet Campus Coins, and customize code-rendered pixel avatars.',extra:'The Innovation Chain links challenges across clubs. The 36-hour build included reward transactions, QR debouncing, a wardrobe, and an 8×18 pixel avatar renderer.',link:''},
+  {name:'Intersync',kind:'Hackathon · Generative AI · Career tools',emoji:'⟷',color:0xf9c7be,stack:'HTML · CSS · JavaScript · Node.js · Gemini API · client-side graph rendering',description:'An identity-to-career pipeline that turns interests into market-aligned project ideas, then maps skills into role-specific resumes tailored to job descriptions.',extra:'The intelligence layer is separated from the modular dashboard so project generation, stack recommendations, and resume phrasing can evolve without rewriting the UX.',link:''},
+  {name:'AURAI',kind:'Simulation · Reinforcement learning',emoji:'↗',color:0x42899b,stack:'Python 3 · pygame · NetworkX · NumPy · Q-learning',description:'An interactive urban transit simulator. Passenger demand changes by time of day, while a Q-learning agent adjusts train frequency to balance congestion, operating cost, and rider satisfaction.',extra:'Stations and tracks form a graph; passengers route across it and the agent learns from congestion and demand states. Simulation dynamics are intentionally simplified for experimentation.',link:''},
+  {name:'icd10.ca',kind:'Research · Healthcare AI · Data',emoji:'⌕',color:0xedada3,stack:'SQL · Web frontend · response tracking · statistical data layer',description:'A research survey platform for a case competition examining whether AI should be used in healthcare decision-making.',extra:'Designed the SQL database and response-tracking structure to support clean, analyzable survey data.',link:'https://icd10.ca'},
+  {name:'PSY270 + tutoring',kind:'Education · Curriculum design',emoji:'∿',color:0x94c4c1,stack:'PSY270H5 course notes · IB Physics · Grade 11 Math · Grade 6 literacy',description:'A set of accessible, organized cognitive psychology course notes and individualized learning resources for students.',extra:'Created modular notes for PSY270H5 and tailored lesson sequences and roadmaps for tutoring students including Evelina and Swara.',link:''},
+  {name:'AI & academic credibility',kind:'Published · Cognitive science',emoji:'§',color:0xce6a6c,stack:'University of Toronto Writing · Year 1 publication',description:'The AI Threat to Academic Credibility examines how AI personalization and fluent summaries can reinforce confirmation bias, the availability heuristic, and misinformation in academic work.',extra:'The paper advocates AI literacy, transparent systems, and primary-source verification while arguing for intentional use rather than rejection of AI.',link:'https://jps.library.utoronto.ca/index.php/writing/article/view/47545'},
+  {name:'Can Machines Ever See Like Us?',kind:'BIO152 · Scientific literacy op-ed',emoji:'◉',color:0xf9c7be,stack:'Visual neuroscience · artificial neural networks · model generalization',description:'A scientific-literacy op-ed comparing ANN representations with the organization of the human visual cortex, from early feature processing through higher-level object representations.',extra:'The central conclusion: ANNs replicate parts of visual-cortex functional organization, but robustness, feedback, and out-of-distribution generalization remain important gaps.',link:''}
+];
 
-                this.x += this.vx;
-                this.y += this.vy;
+const worldCanvas = document.getElementById('project-canvas');
+const worldWrap = document.getElementById('project-world');
+const labelLayer = document.getElementById('world-labels');
+const detailDialog = document.getElementById('project-detail');
+const worldRenderer = new THREE.WebGLRenderer({canvas:worldCanvas,alpha:true,antialias:true});
+worldRenderer.setPixelRatio(Math.min(devicePixelRatio,1.7));
+const worldScene = new THREE.Scene();
+const worldCamera = new THREE.PerspectiveCamera(48,1,.1,240);
+worldScene.add(new THREE.AmbientLight(0xc8e3e4,.48));
+const worldLight = new THREE.PointLight(0x94c4c1,1.8,90);worldLight.position.set(-12,12,12);worldScene.add(worldLight);
+const warmLight = new THREE.PointLight(0xce6a6c,1.5,90);warmLight.position.set(18,2,-12);worldScene.add(warmLight);
+const worldNodes=[],worldLabels=[],worldLines=[],worldPulses=[];
+const worldColors=projectData.map(p=>p.color);
+const positions=projectData.map((_,i)=>{if(innerWidth<600){const column=i%2,row=Math.floor(i/2);return new THREE.Vector3((column-.5)*15,10.5-row*7,Math.sin(i*1.3)*2.5);}const column=i%4,row=Math.floor(i/4);return new THREE.Vector3((column-1.5)*15,row===0?-4.2:4.2,Math.sin(i*1.3)*9.5);});
+const worldFloor=new THREE.Mesh(new THREE.CircleGeometry(24,80),new THREE.MeshBasicMaterial({color:0x123445,transparent:true,opacity:.17,side:THREE.DoubleSide}));worldFloor.rotation.x=-Math.PI/2;worldFloor.position.y=-4.8;worldScene.add(worldFloor);
+projectData.forEach((project,index)=>{
+  const group=new THREE.Group();group.position.copy(positions[index]);
+  const color=project.color;
+  const stone=new THREE.MeshPhongMaterial({color:0x244957,emissive:color,emissiveIntensity:.11,shininess:36,flatShading:true});
+  [{top:2.25,bottom:2.95,height:.9,y:-1.15},{top:1.65,bottom:2.3,height:.72,y:-.38},{top:1.18,bottom:1.72,height:.62,y:.25}].forEach((tier,layer)=>{const rock=new THREE.Mesh(new THREE.CylinderGeometry(tier.top,tier.bottom,tier.height,9,1),stone.clone());rock.position.y=tier.y;rock.rotation.y=layer*.16;group.add(rock);});
+  const cap=new THREE.Mesh(new THREE.CylinderGeometry(1.35,1.55,.18,9),new THREE.MeshPhongMaterial({color,emissive:color,emissiveIntensity:.24,shininess:130,transparent:true,opacity:.9}));cap.position.y=.61;group.add(cap);
+  const crystal=new THREE.Mesh(index%2?new THREE.OctahedronGeometry(.94,0):new THREE.IcosahedronGeometry(.88,1),new THREE.MeshPhongMaterial({color,emissive:color,emissiveIntensity:.68,transparent:true,opacity:.94,shininess:190,specular:0xffffff}));crystal.position.y=1.65;group.add(crystal);
+  const crown=index%2?new THREE.Mesh(new THREE.TetrahedronGeometry(.42),new THREE.MeshPhongMaterial({color:0xf9c7be,emissive:color,emissiveIntensity:.72,transparent:true,opacity:.83,shininess:200})):new THREE.Mesh(new THREE.OctahedronGeometry(.4),new THREE.MeshPhongMaterial({color:0xf9c7be,emissive:color,emissiveIntensity:.72,transparent:true,opacity:.83,shininess:200}));crown.position.set(.95,1.18,.35);group.add(crown);
+  const ring=new THREE.Mesh(new THREE.TorusGeometry(2.6,.042,8,72),new THREE.MeshBasicMaterial({color,transparent:true,opacity:.42}));ring.rotation.x=Math.PI/2;ring.position.y=.68;group.add(ring);
+  const ring2=new THREE.Mesh(new THREE.TorusGeometry(1.85,.025,8,56),new THREE.MeshBasicMaterial({color:0xf9c7be,transparent:true,opacity:.25}));ring2.rotation.x=Math.PI/2.7;ring2.rotation.z=Math.PI/5;ring2.position.y=1.12;group.add(ring2);
+  const beam=new THREE.Mesh(new THREE.CylinderGeometry(.035,.8,3.8,12,1,true),new THREE.MeshBasicMaterial({color,transparent:true,opacity:.08,side:THREE.DoubleSide}));beam.position.y=-2.9;group.add(beam);
+  const satellites=[];for(let mote=0;mote<7;mote++){const satellite=new THREE.Mesh(new THREE.SphereGeometry(.075,8,8),new THREE.MeshBasicMaterial({color:mote%2?0xf9c7be:color,transparent:true,opacity:.85}));satellite.userData={angle:mote/7*Math.PI*2,radius:1.95+(mote%2)*.34,height:1.3+(mote%3)*.33,phase:mote*.8};group.add(satellite);satellites.push(satellite);}
+  const aura=new THREE.PointLight(color,1.1,11);aura.position.y=1;group.add(aura);
+  group.scale.setScalar(1.35);group.userData={index,crystal,crown,ring,ring2,beam,satellites,phase:index*.8};worldScene.add(group);worldNodes.push(group);
+  const label=document.createElement('button');label.type='button';label.className='world-label';label.textContent=project.name;label.setAttribute('aria-label',`Open ${project.name} project details`);label.addEventListener('click',()=>openProject(index));labelLayer.appendChild(label);worldLabels.push(label);
+});
+const wireMaterial=new THREE.LineBasicMaterial({color:0x94c4c1,transparent:true,opacity:.22});
+positions.forEach((from,index)=>{const next=positions[(index+1)%positions.length];const control=from.clone().lerp(next,.5);control.y+=3+Math.sin(index)*2;const curve=new THREE.QuadraticBezierCurve3(from.clone().add(new THREE.Vector3(0,1,0)),control,next.clone().add(new THREE.Vector3(0,1,0)));const wire=new THREE.Line(new THREE.BufferGeometry().setFromPoints(curve.getPoints(36)),wireMaterial.clone());worldScene.add(wire);worldLines.push(wire);for(let k=0;k<2;k++){const pulse=new THREE.Mesh(new THREE.SphereGeometry(.11,8,8),new THREE.MeshBasicMaterial({color:k?0xce6a6c:0xf9c7be,transparent:true,opacity:.9}));pulse.userData={curve,t:(index*.17+k*.5)%1,speed:.0024+k*.0008};worldScene.add(pulse);worldPulses.push(pulse);}});
+let worldRadius=37,worldAzimuth=.08,worldElevation=.28,worldDrag=null,worldTick=0,worldHoverIndex=-1;
+const worldRay=new THREE.Raycaster(),worldPointer=new THREE.Vector2();
+function resizeWorld(){const rect=worldWrap.getBoundingClientRect();worldRenderer.setSize(rect.width,rect.height,false);worldCamera.aspect=rect.width/rect.height;worldCamera.updateProjectionMatrix();projectData.forEach((_,index)=>{if(innerWidth<600){const column=index%2,row=Math.floor(index/2);positions[index].set((column-.5)*15,10.5-row*7,Math.sin(index*1.3)*2.5);worldNodes[index].scale.setScalar(1.18);}else{const column=index%4,row=Math.floor(index/4);positions[index].set((column-1.5)*15,row===0?-4.2:4.2,Math.sin(index*1.3)*9.5);worldNodes[index].scale.setScalar(1.35);}worldNodes[index].position.copy(positions[index]);});}
+function setWorldCamera(){worldCamera.position.set(Math.sin(worldAzimuth)*Math.cos(worldElevation)*worldRadius,Math.sin(worldElevation)*worldRadius,Math.cos(worldAzimuth)*Math.cos(worldElevation)*worldRadius);worldCamera.lookAt(0,0,0);}
+function hitWorld(event){const rect=worldCanvas.getBoundingClientRect();worldPointer.set((event.clientX-rect.left)/rect.width*2-1,-((event.clientY-rect.top)/rect.height)*2+1);worldRay.setFromCamera(worldPointer,worldCamera);const hit=worldRay.intersectObjects(worldNodes,true)[0];if(hit){let root=hit.object;while(root.parent&&root.userData.index===undefined)root=root.parent;if(root.userData.index!==undefined)openProject(root.userData.index);}}
+worldCanvas.addEventListener('pointerdown',event=>{worldDrag={x:event.clientX,y:event.clientY,moved:false};worldCanvas.setPointerCapture(event.pointerId);});
+worldCanvas.addEventListener('pointermove',event=>{
+  if(worldDrag){
+    const dx=event.clientX-worldDrag.x,dy=event.clientY-worldDrag.y;
+    if(Math.abs(dx)+Math.abs(dy)>2)worldDrag.moved=true;
+    worldAzimuth-=dx*.006;worldElevation=Math.max(-.15,Math.min(1.05,worldElevation+dy*.004));
+    worldDrag.x=event.clientX;worldDrag.y=event.clientY;setWorldCamera();
+    return;
+  }
+  const rect=worldCanvas.getBoundingClientRect();
+  worldPointer.set((event.clientX-rect.left)/rect.width*2-1,-((event.clientY-rect.top)/rect.height)*2+1);
+  worldRay.setFromCamera(worldPointer,worldCamera);
+  const hit=worldRay.intersectObjects(worldNodes,true)[0];
+  let hoveredIndex=-1;
+  if(hit){let root=hit.object;while(root.parent&&root.userData.index===undefined)root=root.parent;if(root.userData.index!==undefined)hoveredIndex=root.userData.index;}
+  worldHoverIndex=hoveredIndex;worldCanvas.style.cursor=hit?'pointer':'grab';
+});
+worldWrap.addEventListener('pointerleave',()=>{worldHoverIndex=-1;worldCanvas.style.cursor='grab';});
+worldCanvas.addEventListener('pointerup',event=>{if(worldDrag&&!worldDrag.moved)hitWorld(event);worldDrag=null;});
+worldCanvas.addEventListener('wheel',event=>{event.preventDefault();worldRadius=Math.max(23,Math.min(62,worldRadius+event.deltaY*.035));setWorldCamera();},{passive:false});
+function openProject(index){const project=projectData[index];document.getElementById('detail-kicker').textContent=project.kind;document.getElementById('detail-title').textContent=project.name;document.getElementById('detail-description').textContent=project.description;document.getElementById('detail-stack').textContent=project.stack;document.getElementById('detail-extra').textContent=project.extra;const link=document.getElementById('detail-link');link.hidden=!project.link;if(project.link)link.href=project.link;detailDialog.classList.add('open');document.getElementById('detail-close').focus();}
+function closeProject(){detailDialog.classList.remove('open');}
+document.getElementById('detail-close').addEventListener('click',closeProject);detailDialog.addEventListener('click',event=>{if(event.target===detailDialog)closeProject();});document.addEventListener('keydown',event=>{if(event.key==='Escape')closeProject();});
+const worldClock=new THREE.Clock();
+function drawWorld(){requestAnimationFrame(drawWorld);const delta=worldClock.getDelta();worldTick+=delta;worldNodes.forEach((node,index)=>{const data=node.userData;node.position.y=positions[index].y+Math.sin(worldTick*.48+data.phase)*.2;data.crystal.rotation.y+=delta*.3;data.crystal.rotation.x=Math.sin(worldTick*.42+index)*.08;data.crown.rotation.y-=delta*.2;data.ring.rotation.z-=delta*.13;data.ring2.rotation.y+=delta*.11;data.beam.material.opacity=.055+Math.sin(worldTick*.8+index)*.018;data.satellites.forEach(satellite=>{const angle=satellite.userData.angle+worldTick*.18;satellite.position.set(Math.cos(angle)*satellite.userData.radius,satellite.userData.height+Math.sin(worldTick*.45+satellite.userData.phase)*.12,Math.sin(angle)*satellite.userData.radius);});});worldPulses.forEach(pulse=>{pulse.userData.t=(pulse.userData.t+pulse.userData.speed) % 1;pulse.position.copy(pulse.userData.curve.getPoint(pulse.userData.t));});worldLabels.forEach((label,index)=>{const point=worldNodes[index].position.clone().add(new THREE.Vector3(0,4.3,0)).project(worldCamera);const x=(point.x*.5+.5)*worldWrap.clientWidth,y=(-point.y*.5+.5)*worldWrap.clientHeight;label.style.left=`${x}px`;label.style.top=`${y}px`;label.classList.toggle('visible',index===worldHoverIndex&&point.z<1&&Math.abs(point.x)<1.08&&Math.abs(point.y)<1.08);});worldRenderer.render(worldScene,worldCamera);}
+setWorldCamera();resizeWorld();drawWorld();window.addEventListener('resize',resizeWorld);
+function clampWorldLabels(){requestAnimationFrame(clampWorldLabels);if(!worldWrap.clientWidth||!worldWrap.clientHeight)return;worldLabels.forEach(label=>{if(!label.classList.contains('visible'))return;const halfWidth=label.offsetWidth/2,halfHeight=label.offsetHeight/2,x=Math.max(halfWidth+8,Math.min(worldWrap.clientWidth-halfWidth-8,parseFloat(label.style.left))),y=Math.max(halfHeight+8,Math.min(worldWrap.clientHeight-halfHeight-8,parseFloat(label.style.top)));label.style.left=`${x}px`;label.style.top=`${y}px`;});}
+clampWorldLabels();
 
-                // Damping
-                this.vx *= 0.98;
-                this.vy *= 0.98;
+// ============================================================
+//  SKILLS — FILTERABLE, DRAGGABLE CONSTELLATION
+// ============================================================
+const skillData=[
+  {name:'R',group:'data'},{name:'Python',group:'data'},{name:'Pandas',group:'data'},{name:'NumPy',group:'data'},{name:'SPSS',group:'data'},{name:'MATLAB',group:'data'},{name:'Quarto / Markdown',group:'data'},{name:'Statistical modeling',group:'data'},
+  {name:'C++',group:'engineering'},{name:'Java',group:'engineering'},{name:'Git',group:'engineering'},{name:'Docker',group:'engineering'},{name:'REST APIs',group:'engineering'},{name:'Node.js',group:'engineering'},{name:'SQL',group:'engineering'},{name:'Q-learning',group:'engineering'},
+  {name:'EEGLAB',group:'neuro'},{name:'MNE-Python',group:'neuro'},{name:'Brainstorm',group:'neuro'},{name:'Signal processing',group:'neuro'},{name:'Cognitive neuroscience',group:'neuro'},{name:'Visual systems',group:'neuro'},
+  {name:'JavaScript',group:'web'},{name:'HTML / CSS',group:'web'},{name:'React',group:'web'},{name:'Three.js',group:'web'},{name:'D3',group:'web'},{name:'Data visualization',group:'web'}
+];
+const accessibleSkills=document.getElementById('skills-accessible');
+skillData.forEach(skill=>{const item=document.createElement('li');item.textContent=`${skill.name} — ${skill.group}`;accessibleSkills.appendChild(item);});
+const skillColors={data:'#edada3',engineering:'#94c4c1',neuro:'#ce6a6c',web:'#65aabc'};
+function hexRgba(hex,alpha){const value=parseInt(hex.slice(1),16);return`rgba(${value>>16},${value>>8&255},${value&255},${alpha})`;}
+const skillCanvas=document.getElementById('skills-canvas'),skillContext=skillCanvas.getContext('2d'),skillReadout=document.getElementById('skill-readout');
+let activeSkillFilter='all',skillNodes=[],skillDrag=null,skillHover=null,skillFrame=0,skillDpr=1;
+function resizeSkills(){const rect=skillCanvas.getBoundingClientRect();if(!rect.width||!rect.height)return;skillDpr=Math.min(devicePixelRatio||1,2);skillCanvas.width=rect.width*skillDpr;skillCanvas.height=rect.height*skillDpr;skillContext.setTransform(skillDpr,0,0,skillDpr,0,0);buildSkillNodes();}
+function buildSkillNodes(){const w=skillCanvas.clientWidth,h=skillCanvas.clientHeight,narrow=w<560,stepX=Math.min(74,w*.17),stepY=Math.min(78,h*.17),centers={data:[narrow?.28:.23,.3],engineering:[narrow?.72:.76,.3],neuro:[narrow?.28:.23,.73],web:[narrow?.72:.76,.73]},visible=skillData.filter(skill=>activeSkillFilter==='all'||skill.group===activeSkillFilter);skillNodes=visible.map(skill=>{const peers=visible.filter(item=>item.group===skill.group),index=peers.indexOf(skill),columns=Math.min(3,peers.length),row=Math.floor(index/columns),column=index%columns,[cx,cy]=centers[skill.group],x=w*cx+(column-(columns-1)/2)*stepX,y=h*cy+(row-(Math.ceil(peers.length/columns)-1)/2)*stepY;return{...skill,x,y,homeX:x,homeY:y,phase:index*.81,r:skill.name.length>15?12:14,hover:0};});}
+function setSkillFilter(group){activeSkillFilter=group;document.querySelectorAll('.skill-filter').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.skillFilter===group)));buildSkillNodes();}
+document.querySelectorAll('.skill-filter').forEach(button=>button.addEventListener('click',()=>setSkillFilter(button.dataset.skillFilter)));
+function skillPoint(event){const rect=skillCanvas.getBoundingClientRect();return{x:event.clientX-rect.left,y:event.clientY-rect.top};}
+skillCanvas.addEventListener('pointerdown',event=>{const point=skillPoint(event);const hit=[...skillNodes].reverse().find(node=>Math.hypot(point.x-node.x,point.y-node.y)<18);if(hit){skillDrag=hit;skillCanvas.setPointerCapture(event.pointerId);}});
+skillCanvas.addEventListener('pointermove',event=>{const point=skillPoint(event);if(skillDrag){skillDrag.x=point.x;skillDrag.y=point.y;skillDrag.homeX=point.x;skillDrag.homeY=point.y;}skillHover=[...skillNodes].reverse().find(node=>Math.hypot(point.x-node.x,point.y-node.y)<23)||null;skillCanvas.style.cursor=skillDrag||skillHover?'grabbing':'grab';skillReadout.textContent=skillHover?`${skillHover.name} · ${skillHover.group}`:'';skillReadout.classList.toggle('active',Boolean(skillHover));});
+skillCanvas.addEventListener('pointerleave',()=>{if(!skillDrag){skillHover=null;skillReadout.textContent='';skillReadout.classList.remove('active');skillCanvas.style.cursor='grab';}});
+skillCanvas.addEventListener('pointerup',()=>{skillDrag=null;});skillCanvas.addEventListener('pointercancel',()=>{skillDrag=null;});
+function drawSkills(){const ctx=skillContext,w=skillCanvas.clientWidth,h=skillCanvas.clientHeight;
+  ctx.clearRect(0,0,w,h);
+  skillNodes.forEach(node=>{
+    if(node!==skillDrag){
+      const driftRadius=w<560?7:12;
+      const driftX=Math.sin(skillFrame*.008+node.phase)*driftRadius;
+      const driftY=Math.cos(skillFrame*.0065+node.phase)*driftRadius*.8;
+      node.x+=(node.homeX+driftX-node.x)*.035;
+      node.y+=(node.homeY+driftY-node.y)*.035;
+    }
+    const active=node===skillHover||node===skillDrag;
+    node.hover+=(Number(active)-node.hover)*.055;
+  });
+  skillNodes.forEach((node,index)=>skillNodes.slice(index+1).forEach(other=>{
+    if(node.group!==other.group)return;
+    const distance=Math.hypot(node.x-other.x,node.y-other.y);
+    if(distance>260)return;
+    const emphasis=Math.max(node.hover,other.hover);
+    const gradient=ctx.createLinearGradient(node.x,node.y,other.x,other.y);
+    gradient.addColorStop(0,skillColors[node.group]);
+    gradient.addColorStop(1,'rgba(148,196,193,.16)');
+    ctx.beginPath();ctx.moveTo(node.x,node.y);ctx.lineTo(other.x,other.y);
+    ctx.strokeStyle=gradient;ctx.globalAlpha=(1-distance/260)*(.14+emphasis*.4);
+    ctx.lineWidth=.8+emphasis;ctx.stroke();ctx.globalAlpha=1;
+    const signal=(skillFrame*.003+index*.17)%1;
+    const sx=node.x+(other.x-node.x)*signal,sy=node.y+(other.y-node.y)*signal;
+    ctx.beginPath();ctx.arc(sx,sy,1.4+emphasis,0,Math.PI*2);
+    ctx.fillStyle=skillColors[node.group];ctx.globalAlpha=.2+emphasis*.55;ctx.fill();ctx.globalAlpha=1;
+  }));
+  skillNodes.forEach(node=>{
+    const color=skillColors[node.group],glow=node.hover,radius=node.r+glow*2+Math.sin(skillFrame*.018+node.phase)*.7;
+    const halo=ctx.createRadialGradient(node.x,node.y,1,node.x,node.y,radius*3.4);
+    halo.addColorStop(0,hexRgba(color,.22+glow*.1));halo.addColorStop(.42,hexRgba(color,.08));halo.addColorStop(1,hexRgba(color,0));
+    ctx.beginPath();ctx.arc(node.x,node.y,radius*3.4,0,Math.PI*2);ctx.fillStyle=halo;ctx.fill();
+    ctx.save();ctx.translate(node.x,node.y);ctx.rotate(skillFrame*.0018+node.phase);
+    ctx.beginPath();ctx.ellipse(0,0,radius*1.75,radius*.72,.18,0,Math.PI*2);
+    ctx.strokeStyle=color;ctx.globalAlpha=.19+glow*.32;ctx.lineWidth=1;ctx.stroke();
+    ctx.beginPath();ctx.arc(radius*1.7,0,1.8+glow,0,Math.PI*2);ctx.fillStyle=color;ctx.fill();ctx.restore();ctx.globalAlpha=1;
+    const core=ctx.createRadialGradient(node.x-radius*.28,node.y-radius*.32,1,node.x,node.y,radius);
+    core.addColorStop(0,'rgba(255,255,255,.96)');core.addColorStop(.22,hexRgba(color,.92));core.addColorStop(1,'rgba(7,20,29,.98)');
+    ctx.beginPath();ctx.arc(node.x,node.y,radius,0,Math.PI*2);ctx.fillStyle=core;ctx.fill();
+    ctx.strokeStyle=color;ctx.globalAlpha=.72+glow*.28;ctx.lineWidth=1+glow;ctx.shadowBlur=glow*13;ctx.shadowColor=color;ctx.stroke();ctx.shadowBlur=0;ctx.globalAlpha=1;
+    if(glow<.28)return;
+    const label=node.name,labelWidth=ctx.measureText(label).width+16,labelY=node.y-radius-18;
+    ctx.beginPath();ctx.roundRect(node.x-labelWidth/2,labelY-9,labelWidth,18,4);
+    ctx.fillStyle=`rgba(5,14,21,${.58+glow*.3})`;ctx.strokeStyle=color;ctx.globalAlpha=.42+glow*.5;ctx.lineWidth=.8;ctx.fill();ctx.stroke();
+    ctx.fillStyle=glow>.35?'#fff':'rgba(240,232,229,.82)';ctx.font=`${10+glow}px DM Sans`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(label,node.x,labelY);ctx.globalAlpha=1;ctx.textBaseline='alphabetic';
+  });
+  skillFrame++;requestAnimationFrame(drawSkills);
+}
+resizeSkills();drawSkills();window.addEventListener('resize',resizeSkills);
 
-                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+// ============================================================
+//  D3 EEG — SIMULATED SERIES WITH PAN AND ZOOM
+// ============================================================
+const eegBands={delta:{hz:2,amplitude:.95,label:'Delta · 0.5–4 Hz'},theta:{hz:6,amplitude:.72,label:'Theta · 4–8 Hz'},alpha:{hz:10,amplitude:.55,label:'Alpha · 8–13 Hz'},beta:{hz:22,amplitude:.34,label:'Beta · 13–30 Hz'},gamma:{hz:50,amplitude:.22,label:'Gamma · 30–100 Hz'}};
+const eegSvg=d3.select('#eeg-plot');let eegBand='alpha',eegOffset=0,eegZoom=d3.zoomIdentity,eegResizeTimer;
+function eegSignal(band){const config=eegBands[band];return d3.range(640).map(index=>({time:index/640,value:Math.sin((index/640+eegOffset)*config.hz*Math.PI*2)*config.amplitude+Math.sin((index/640+eegOffset)*config.hz*.41*Math.PI*2)*config.amplitude*.26+(Math.random()-.5)*config.amplitude*.16}));}
+function drawEEG(){const rect=document.getElementById('eeg-plot').getBoundingClientRect(),width=Math.max(320,rect.width),height=Math.max(180,rect.height),margin={top:24,right:18,bottom:26,left:42};eegSvg.attr('viewBox',`0 0 ${width} ${height}`).attr('preserveAspectRatio','none');eegSvg.selectAll('*').remove();const x=d3.scaleLinear().domain([0,1]).range([margin.left,width-margin.right]),y=d3.scaleLinear().domain([-1.35,1.35]).range([height-margin.bottom,margin.top]);const grid=eegSvg.append('g').attr('stroke','rgba(148,196,193,.12)');d3.range(0,1.001,.1).forEach(v=>grid.append('line').attr('x1',x(v)).attr('x2',x(v)).attr('y1',margin.top).attr('y2',height-margin.bottom));d3.range(-1,1.01,.5).forEach(v=>grid.append('line').attr('x1',margin.left).attr('x2',width-margin.right).attr('y1',y(v)).attr('y2',y(v)));const clipId='eeg-clip';eegSvg.append('defs').append('clipPath').attr('id',clipId).append('rect').attr('x',margin.left).attr('y',margin.top).attr('width',width-margin.left-margin.right).attr('height',height-margin.top-margin.bottom);const path=d3.line().x(d=>x(d.time)).y(d=>y(d.value)).curve(d3.curveBasis);const graph=eegSvg.append('g').attr('clip-path',`url(#${clipId})`).append('path').datum(eegSignal(eegBand)).attr('fill','none').attr('stroke','#94c4c1').attr('stroke-width',1.8).attr('d',path);eegSvg.append('g').attr('transform',`translate(0,${height-margin.bottom})`).call(d3.axisBottom(x).ticks(6).tickFormat(value=>`${value.toFixed(1)}s`)).call(axis=>axis.selectAll('text').attr('fill','rgba(240,232,229,.48)')).call(axis=>axis.selectAll('line,path').attr('stroke','rgba(240,232,229,.2)'));eegSvg.append('text').attr('x',margin.left).attr('y',14).attr('fill','#edada3').attr('font-size',11).text('Illustrative signal · not recorded EEG');const zoom=d3.zoom().scaleExtent([1,12]).extent([[margin.left,margin.top],[width-margin.right,height-margin.bottom]]).on('zoom',event=>{eegZoom=event.transform;const zx=eegZoom.rescaleX(x);graph.attr('d',d3.line().x(d=>zx(d.time)).y(d=>y(d.value)).curve(d3.curveBasis));});eegSvg.call(zoom).on('dblclick.zoom',null);}
+document.querySelectorAll('.eeg-band').forEach(button=>button.addEventListener('click',()=>{eegBand=button.dataset.band;document.querySelectorAll('.eeg-band').forEach(other=>other.setAttribute('aria-pressed',String(other===button)));document.getElementById('eeg-readout').textContent=`${eegBands[eegBand].label} · simulated`;drawEEG();}));
+drawEEG();window.addEventListener('resize',()=>{clearTimeout(eegResizeTimer);eegResizeTimer=setTimeout(drawEEG,120);});
 
-                const scrollFactor = 1 + scrollProgress * 2;
-                this.radius = this.baseRadius * scrollFactor;
-            }
+// ============================================================
+//  NEURON REFLEX — REACTION-TIME MINI GAME
+// ============================================================
+const gameCanvas=document.getElementById('reflex-canvas'),gameContext=gameCanvas.getContext('2d'),gameScore=document.getElementById('game-score'),gameBest=document.getElementById('game-best'),gameLivesDisplay=document.getElementById('game-lives'),gameMessage=document.getElementById('game-message'),gameStart=document.getElementById('game-start');
+let gameDpr=1,gameActive=false,gameTarget=null,gameScoreValue=0,gameLives=3,gameDeadline=0,gameTargetDuration=1450,gameLoop=0,gameLastSpawn=0,gameSpawnGap=850;
+const gameNodes=Array.from({length:13},(_,index)=>({x:.08+Math.random()*.84,y:.12+Math.random()*.76,phase:index*.8,color:['#ce6a6c','#94c4c1','#edada3','#42899b'][index%4]}));
+let bestScore=Number(localStorage.getItem('neuron-reflex-best')||0);gameBest.textContent=bestScore;
+function resizeGame(){const rect=gameCanvas.getBoundingClientRect();gameDpr=Math.min(devicePixelRatio||1,2);gameCanvas.width=rect.width*gameDpr;gameCanvas.height=rect.height*gameDpr;gameContext.setTransform(gameDpr,0,0,gameDpr,0,0);}
+function startReflex(){gameActive=true;gameTarget=null;gameScoreValue=0;gameLives=3;gameSpawnGap=850;gameTargetDuration=1450;gameLastSpawn=performance.now();gameScore.textContent='0';gameLivesDisplay.textContent='● ● ●';gameMessage.textContent='Watch the network...';gameStart.textContent='Restart';cancelAnimationFrame(gameLoop);drawGame();}
+gameStart.addEventListener('click',startReflex);
+gameCanvas.addEventListener('pointerdown',event=>{if(!gameActive||gameTarget===null)return;const rect=gameCanvas.getBoundingClientRect(),x=event.clientX-rect.left,y=event.clientY-rect.top,node=gameNodes[gameTarget],nx=node.x*rect.width,ny=node.y*rect.height;if(Math.hypot(x-nx,y-ny)<42){const elapsed=performance.now()-(gameDeadline-gameTargetDuration),points=Math.max(1,Math.round(28-elapsed/Math.max(45,gameTargetDuration*.085)));gameScoreValue+=points;gameScore.textContent=gameScoreValue;if(gameScoreValue>bestScore){bestScore=gameScoreValue;gameBest.textContent=bestScore;localStorage.setItem('neuron-reflex-best',String(bestScore));}gameMessage.textContent=`Signal caught · ${points} points`;gameTarget=null;gameTargetDuration=Math.max(650,1450-gameScoreValue*17);gameSpawnGap=Math.max(430,gameSpawnGap-32);gameLastSpawn=performance.now();}});
+function drawGame(now=performance.now()){const ctx=gameContext,w=gameCanvas.clientWidth,h=gameCanvas.clientHeight;ctx.clearRect(0,0,w,h);ctx.strokeStyle='rgba(148,196,193,.07)';for(let x=0;x<w;x+=w/14){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke();}gameNodes.forEach((node,index)=>{const x=node.x*w,y=node.y*h,active=index===gameTarget,pulse=1+Math.sin(now*.004+node.phase)*.12;ctx.beginPath();ctx.arc(x,y,active?47:18,0,Math.PI*2);ctx.fillStyle=node.color;ctx.globalAlpha=active?.1:.035;ctx.fill();ctx.globalAlpha=1;if(active){const progress=Math.max(0,(gameDeadline-now)/gameTargetDuration);ctx.beginPath();ctx.arc(x,y,31,0,Math.PI*2);ctx.strokeStyle='rgba(255,255,255,.17)';ctx.lineWidth=3;ctx.stroke();ctx.beginPath();ctx.arc(x,y,31,-Math.PI/2,-Math.PI/2+Math.PI*2*progress);ctx.strokeStyle=node.color;ctx.lineWidth=3;ctx.lineCap='round';ctx.shadowBlur=14;ctx.shadowColor=node.color;ctx.stroke();ctx.shadowBlur=0;ctx.lineCap='butt';for(let tick=0;tick<12;tick++){const angle=tick/12*Math.PI*2-Math.PI/2;ctx.beginPath();ctx.arc(x+Math.cos(angle)*39,y+Math.sin(angle)*39,1.2,0,Math.PI*2);ctx.fillStyle=node.color;ctx.globalAlpha=.25+.5*(tick/12<progress?1:0);ctx.fill();ctx.globalAlpha=1;}}ctx.beginPath();ctx.arc(x,y,active?11+Math.sin(now*.012)*2:5*pulse,0,Math.PI*2);ctx.fillStyle=node.color;ctx.shadowBlur=active?26:8;ctx.shadowColor=node.color;ctx.fill();ctx.shadowBlur=0;});if(gameActive){if(gameTarget===null&&now-gameLastSpawn>gameSpawnGap){gameTarget=Math.floor(Math.random()*gameNodes.length);gameDeadline=now+gameTargetDuration;}if(gameTarget!==null&&now>gameDeadline){gameTarget=null;gameLives--;gameLivesDisplay.textContent='● '.repeat(gameLives).trim()||'0';gameMessage.textContent=gameLives?`Signal missed · ${gameLives} left`:'Experiment ended · start another round';if(!gameLives)gameActive=false;gameLastSpawn=now;}}gameLoop=requestAnimationFrame(drawGame);}
+resizeGame();drawGame();window.addEventListener('resize',resizeGame);
 
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                
-                const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius * 2);
-                gradient.addColorStop(0, 'rgba(102, 126, 234, 0.8)');
-                gradient.addColorStop(1, 'rgba(118, 75, 162, 0)');
-                
-                ctx.fillStyle = gradient;
-                ctx.shadowBlur = 15 * (1 + scrollProgress);
-                ctx.shadowColor = '#667eea';
-                ctx.fill();
-                ctx.shadowBlur = 0;
-            }
-        }
-
-        for (let i = 0; i < nodeCount; i++) {
-            nodes.push(new Node());
-        }
-
-        function drawConnections() {
-            const maxDistance = 150 + (scrollProgress * 100);
-            
-            for (let i = 0; i < nodes.length; i++) {
-                for (let j = i + 1; j < nodes.length; j++) {
-                    const dx = nodes[i].x - nodes[j].x;
-                    const dy = nodes[i].y - nodes[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-
-                    if (distance < maxDistance) {
-                        ctx.beginPath();
-                        ctx.moveTo(nodes[i].x, nodes[i].y);
-                        ctx.lineTo(nodes[j].x, nodes[j].y);
-                        
-                        const opacity = (1 - distance / maxDistance) * (0.3 + scrollProgress * 0.4);
-                        const gradient = ctx.createLinearGradient(nodes[i].x, nodes[i].y, nodes[j].x, nodes[j].y);
-                        gradient.addColorStop(0, `rgba(102, 126, 234, ${opacity})`);
-                        gradient.addColorStop(1, `rgba(118, 75, 162, ${opacity})`);
-                        
-                        ctx.strokeStyle = gradient;
-                        ctx.lineWidth = 1 + scrollProgress;
-                        ctx.stroke();
-                    }
-                }
-            }
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            drawConnections();
-            
-            nodes.forEach(node => {
-                node.update();
-                node.draw();
-            });
-
-            requestAnimationFrame(animate);
-        }
-
-        animate();
-
-        window.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY + window.scrollY;
-        });
-
-        window.addEventListener('scroll', () => {
-            scrollProgress = Math.min(window.scrollY / (document.documentElement.scrollHeight - window.innerHeight), 1);
-            
-            document.querySelectorAll('.section-title, .card').forEach(el => {
-                const rect = el.getBoundingClientRect();
-                if (rect.top < window.innerHeight * 0.8) {
-                    el.classList.add('visible');
-                }
-            });
-        });
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = document.documentElement.scrollHeight;
-        });
-
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-
-        setTimeout(() => {
-            document.querySelectorAll('.section-title, .card').forEach(el => {
-                const rect = el.getBoundingClientRect();
-                if (rect.top < window.innerHeight * 0.8) {
-                    el.classList.add('visible');
-                }
-            });
-        }, 100);
-    </script>
+// ============================================================
+//  SCROLL PROGRESS + SECTION NAVIGATION STATE
+// ============================================================
+const portfolioSections=[...document.querySelectorAll('#main-content > section')];
+const portfolioLinks=[...document.querySelectorAll('nav .nav-link')];
+const progressFill=document.getElementById('scroll-progress-fill');
+const progressLabel=document.getElementById('nav-progress-label');
+let scrollUpdatePending=false;
+function updateScrollState(){
+  const scrollableHeight=document.documentElement.scrollHeight-window.innerHeight;
+  const progress=scrollableHeight>0?window.scrollY/scrollableHeight:0;
+  progressFill.style.transform=`scaleX(${Math.max(0,Math.min(1,progress))})`;
+  const probe=window.innerHeight*.38;
+  let activeIndex=0;
+  portfolioSections.forEach((section,index)=>{if(section.getBoundingClientRect().top<=probe)activeIndex=index;});
+  portfolioLinks.forEach((link,index)=>{
+    if(index===activeIndex)link.setAttribute('aria-current','location');
+    else link.removeAttribute('aria-current');
+  });
+  progressLabel.textContent=`${String(activeIndex+1).padStart(2,'0')} / ${String(portfolioSections.length).padStart(2,'0')}`;
+  scrollUpdatePending=false;
+}
+window.addEventListener('scroll',()=>{
+  if(scrollUpdatePending)return;
+  scrollUpdatePending=true;
+  requestAnimationFrame(updateScrollState);
+},{passive:true});
+window.addEventListener('resize',updateScrollState);
+updateScrollState();
+</script>
 </body>
 </html>
