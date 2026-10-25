@@ -78,6 +78,8 @@ a{color:inherit}
 
 /* ─── HERO ─── */
 #hero{position:relative;height:100vh;min-height:640px;display:flex;align-items:center;justify-content:center;overflow:hidden;padding-top:var(--nav-h)}
+#hero::after{content:'';position:absolute;inset:auto 0 0;height:clamp(140px,22vh,240px);z-index:2;pointer-events:none;background:linear-gradient(90deg,rgba(40,64,92,.18),rgba(40,64,92,.42) 50%,rgba(40,64,92,.18));mask-image:linear-gradient(to bottom,transparent,#000)}
+#about{border-top:0}
 .hero-inner{text-align:center;position:relative;z-index:3}
 .hero-eyebrow{font:400 .78rem var(--mono);letter-spacing:.42em;text-transform:uppercase;color:var(--teal);margin-bottom:22px;opacity:0;animation:fadeUp 1s .5s both}
 .hero-name{font-family:var(--serif);font-size:clamp(4rem,10vw,9rem);font-weight:700;line-height:.9;background:linear-gradient(135deg,var(--blush) 0%,var(--coral) 40%,var(--peach) 70%,var(--teal) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;opacity:0;animation:fadeUp 1s .8s both;filter:drop-shadow(0 0 60px rgba(206,106,108,.3))}
@@ -95,11 +97,6 @@ a{color:inherit}
 .hero-scroll span{font:400 .62rem var(--mono);letter-spacing:.32em;text-transform:uppercase;color:var(--teal);opacity:.65}
 .scroll-line{width:1px;height:52px;background:linear-gradient(to bottom,var(--teal),transparent);animation:scrollPulse 2s ease-in-out infinite}
 @keyframes scrollPulse{0%,100%{transform:scaleY(1);opacity:.6}50%{transform:scaleY(1.25);opacity:1}}
-.ticker{position:absolute;left:0;right:0;bottom:0;height:44px;border-block:1px solid var(--line);background:linear-gradient(90deg,rgba(206,106,108,.12),rgba(66,137,155,.16),rgba(206,106,108,.12));overflow:hidden;display:flex;align-items:center;z-index:3}
-.ticker-track{display:flex;width:max-content;animation:marquee 50s linear infinite}
-.ticker-track span{font:500 .66rem var(--mono);letter-spacing:.3em;text-transform:uppercase;color:rgba(249,199,190,.78);padding-right:2.4em;white-space:nowrap}
-@keyframes marquee{to{transform:translateX(-50%)}}
-
 /* ─── BANDS (every container is a full-width rectangle) ─── */
 .band{position:relative;width:100%;padding:112px 0 104px;overflow:hidden;border-block:1px solid var(--line-soft);background:linear-gradient(90deg,var(--ta),var(--tb) 50%,var(--ta));--ta:rgba(66,137,155,.05);--tb:rgba(66,137,155,.14);--accent:var(--teal)}
 .band::before{content:'';position:absolute;left:0;top:-1px;width:min(220px,28vw);height:2px;background:linear-gradient(90deg,var(--accent),transparent)}
@@ -108,6 +105,7 @@ a{color:inherit}
 .tint-peach{--ta:rgba(237,173,163,.04);--tb:rgba(237,173,163,.12);--accent:var(--peach)}
 .tint-navy{--ta:rgba(40,64,92,.18);--tb:rgba(40,64,92,.42);--accent:var(--ocean)}
 .tint-dark{--ta:rgba(3,9,14,.4);--tb:rgba(3,9,14,.62);--accent:var(--teal)}
+.tint-teal{--ta:rgba(148,196,193,.04);--tb:rgba(148,196,193,.13);--accent:var(--teal)}
 .wrap{width:var(--wrap);margin:0 auto;position:relative}
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .85s var(--ease),transform .85s var(--ease);transition-delay:var(--d,0s)}
 .reveal.visible{opacity:1;transform:none}
@@ -361,12 +359,6 @@ footer{position:relative;z-index:2;text-align:center;padding:30px 24px;border-to
       <p class="hero-sub">Developer &nbsp;·&nbsp; Researcher &nbsp;·&nbsp; Builder</p>
     </div>
     <div class="hero-scroll"><div class="scroll-line"></div><span>Scroll to explore</span></div>
-    <div class="ticker" aria-hidden="true">
-      <div class="ticker-track">
-        <span>Neuroscience ◆ Computer science ◆ Statistics ◆ Reinforcement learning ◆ Generative AI ◆ Signal processing ◆ Data visualization ◆ Education ◆ Human-centered design ◆</span>
-        <span>Neuroscience ◆ Computer science ◆ Statistics ◆ Reinforcement learning ◆ Generative AI ◆ Signal processing ◆ Data visualization ◆ Education ◆ Human-centered design ◆</span>
-      </div>
-    </div>
   </section>
 
   <!-- ── ABOUT ── -->
